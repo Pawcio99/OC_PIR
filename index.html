@@ -40,6 +40,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* FIX: zapobieganie łamaniu tekstu przy Sd i innych parametrach z subskryptem */
+sub { white-space: nowrap; }
+sup { white-space: nowrap; }
+.nowrap { white-space: nowrap; }
+
 /* ══ RUNNING HEAD ══ */
 .rh {
   position: sticky; top: 0; z-index: 200;
@@ -286,25 +291,42 @@ tr:nth-child(even) td { background: #faf7f2; }
 .ph1 { --pc: #1a6fa0; } .ph2 { --pc: #2e7d32; }
 .ph3 { --pc: #e07800; } .ph4 { --pc: #c62828; } .ph5 { --pc: #6a0000; }
 
-/* ══ CONCLUSIONS ══ */
-.concl { counter-reset: cl; margin: 1.2rem 0; }
+/* ══ CONCLUSIONS — POPRAWIONE ══ */
+.concl {
+  counter-reset: cl;
+  margin: 1.2rem 0;
+}
 .ci {
   counter-increment: cl;
-  display: flex; gap: 1.1rem; align-items: flex-start;
-  padding: 1rem 0;
+  display: flex;
+  gap: 1.1rem;
+  align-items: flex-start;
+  padding: 1.1rem 0;
   border-bottom: 1px solid var(--rule-lt);
-  font-size: 0.97rem; line-height: 1.8;
+  font-size: 0.97rem;
+  line-height: 1.8;
   max-width: var(--wide);
 }
 .ci:last-child { border: none; }
-.ci::before {
-  content: counter(cl);
-  min-width: 28px; height: 28px; border-radius: 50%;
-  background: var(--blue); color: #fff;
+/* Liczba w kółku — jako osobny element, nie pseudo-element,
+   żeby unikać problemów z renderowaniem i wyrównaniem */
+.ci-num {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.67rem; font-weight: 600;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 3px;
+  font-size: 0.67rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.ci-body {
+  flex: 1;
 }
 
 /* ══ REFS ══ */
@@ -381,7 +403,7 @@ footer span { color: var(--gold-lt); }
   <p>
     Artykuł analizuje stabilność wilgotnościową wszystkich złączy w systemach nakrokwiowej
     izolacji PIR, w których producenci stosują lub zalecają wypełnienie pianką
-    otwartokomórkową (OC&nbsp;SPF, µ&nbsp;≈&nbsp;3–5). Obejmuje to złącze kalenicy, złącza
+    otwartokomórkową (<span class="nowrap">OC&nbsp;SPF,</span> <span class="nowrap">µ&nbsp;≈&nbsp;3–5</span>). Obejmuje to złącze kalenicy, złącza
     boczne między płytami, złącza okapu oraz wszystkie przejścia i naroża.
     Wykazano, że każde z tych miejsc stanowi lokalny węzeł niestabilności wilgotnościowej
     identyczny fizycznie z przypadkiem kalenicy — i że suma takich węzłów tworzy
@@ -391,11 +413,11 @@ footer span { color: var(--gold-lt); }
     Analiza rozszerzona jest o drugi, niezależny mechanizm destrukcji:
     dziurawienie paroizolacji wewnętrznej przez łączniki mechaniczne, instalacje i przejścia.
     Wykazano, że nieszczelności powietrzne paroizolacji generują strumień konwekcyjny
-    o intensywności dominującej nad dyfuzją, działający niezależnie od parametrów S<sub>d</sub>
-    samej folii. Oba mechanizmy — niestabilność złączy OC i nieszczelność paroizolacji —
-    działają addytywnie, wzajemnie wzmacniając się termodynamicznie.
+    o intensywności dominującej nad dyfuzją, działający niezależnie od parametrów
+    <span class="nowrap">S<sub>d</sub></span> samej folii. Oba mechanizmy — niestabilność złączy OC i nieszczelność
+    paroizolacji — działają addytywnie, wzajemnie wzmacniając się termodynamicznie.
     Brak korekcji prowadzi do kaskadowej degradacji w horyzoncie 5–20 lat
-    z naruszeniem kryterium trwałości 50 lat normy PN-EN&nbsp;1990.
+    z naruszeniem kryterium trwałości 50 lat normy <span class="nowrap">PN-EN&nbsp;1990.</span>
   </p>
   <div class="kw">
     <strong>Słowa kluczowe:</strong>
@@ -429,10 +451,10 @@ footer span { color: var(--gold-lt); }
   Systemy nakrokwiowej izolacji poliizocyjanurową (PIR) stały się dominującą technologią
   izolacji dachów stromych i płaskich w polskim budownictwie jednorodzinnym
   i przemysłowym ostatniego piętnastolecia. Ich popularność wynika z wyjątkowo niskiej
-  wartości przewodności cieplnej (λ&nbsp;=&nbsp;0,022–0,028&nbsp;W/mK) przy stosunkowo
+  wartości przewodności cieplnej (<span class="nowrap">λ&nbsp;=&nbsp;0,022–0,028&nbsp;W/mK</span>) przy stosunkowo
   małej grubości warstwy. Typowy przekrój dachu PIR obejmuje od zewnątrz:
-  membranę paroprzepuszczalną (S<sub>d</sub>&nbsp;≈&nbsp;0,02–0,10&nbsp;m), płyty PIR
-  z aluminiowymi okładzinami (µ&nbsp;=&nbsp;50–200), paroizolację wewnętrzną
+  membranę paroprzepuszczalną (<span class="nowrap">S<sub>d</sub>&nbsp;≈&nbsp;0,02–0,10&nbsp;m</span>), płyty PIR
+  z aluminiowymi okładzinami (<span class="nowrap">µ&nbsp;=&nbsp;50–200</span>), paroizolację wewnętrzną
   i wykończenie sufitu.
 </p>
 
@@ -440,14 +462,14 @@ footer span { color: var(--gold-lt); }
   Problem fizyczny opisany w tej pracy ujawnia się nie w płaskim przekroju połaci,
   lecz wyłącznie w złączach — w miejscach, gdzie ciągłość rdzenia PIR jest przerwana
   i gdzie producenci systemów powszechnie zalecają lub stosują wypełnienie
-  pianką poliuretanową otwartokomórkową (OC&nbsp;SPF) aplikowaną in&nbsp;situ.
+  pianką poliuretanową otwartokomórkową (<span class="nowrap">OC&nbsp;SPF</span>) aplikowaną in&nbsp;situ.
   Tych złączy w typowym dachu PIR nie jest jedno: jest ich wiele, rozmieszczonych
   na całej powierzchni połaci, i każde z nich stanowi fizycznie tożsamy węzeł
   niestabilności wilgotnościowej.
 </p>
 
 <p>
-  Obowiązujące normy obliczeniowe (PN-EN&nbsp;13788, EN&nbsp;15026) traktują przegrodę
+  Obowiązujące normy obliczeniowe (<span class="nowrap">PN-EN&nbsp;13788,</span> <span class="nowrap">EN&nbsp;15026</span>) traktują przegrodę
   jako jednorodny, płaski przekrój. Model Glasera i jego numeryczne rozwinięcia
   w środowiskach WUFI i DELPHIN domyślnie zakładają ciągłość materiałową
   i jednorodność parametrów dyfuzyjnych w płaszczyźnie. Złącza — jako lokalne,
@@ -475,12 +497,12 @@ footer span { color: var(--gold-lt); }
   <p>
     Każde złącze w systemie nakrokwiowej izolacji PIR wypełnione pianką otwartokomórkową
     stanowi lokalny węzeł niestabilności wilgotnościowej bez stanu stacjonarnego:
-    dM/dt&nbsp;&gt;&nbsp;0 niezależnie od wariantu paroizolacji, bo dominującymi mechanizmami
-    transportu są mikrokonwekcja (Pe&nbsp;≫&nbsp;1) i termodyfuzja Soreta, na które
-    żadna bariera dyfuzyjna — niezależnie od jej S<sub>d</sub> i niezależnie od jej lokalizacji
+    <span class="nowrap">dM/dt&nbsp;&gt;&nbsp;0</span> niezależnie od wariantu paroizolacji, bo dominującymi mechanizmami
+    transportu są mikrokonwekcja (<span class="nowrap">Pe&nbsp;≫&nbsp;1</span>) i termodyfuzja Soreta, na które
+    żadna bariera dyfuzyjna — niezależnie od jej <span class="nowrap">S<sub>d</sub></span> i niezależnie od jej lokalizacji
     względem pianki — nie ma wpływu fizycznego. Jednoczesna nieszczelność powietrzna
     paroizolacji wewnętrznej stanowi niezależny, addytywny mechanizm destrukcji,
-    działający nawet gdy S<sub>d</sub> folii jest nominalnie wystarczające.
+    działający nawet gdy <span class="nowrap">S<sub>d</sub></span> folii jest nominalnie wystarczające.
   </p>
 </div>
 
@@ -506,18 +528,18 @@ footer span { color: var(--gold-lt); }
 <div class="eq">
   <div class="eq-tag">Bilans energii — równanie Künzela</div>
   <code>(ρc<sub>p</sub> + c<sub>w</sub>w) ∂T/∂t = ∇[λ<sub>eff</sub>(w) ∇T] + L<sub>v</sub>ṁ<sub>cond</sub> + L<sub>s</sub>ṁ<sub>resub</sub></code>
-  <p class="eq-note">λ<sub>eff</sub>(w) — przewodność cieplna efektywna rosnąca z wilgotnością; L<sub>v</sub> = 2,45 MJ/kg; L<sub>s</sub> = 2,838 MJ/kg</p>
+  <p class="eq-note"><span class="nowrap">λ<sub>eff</sub>(w)</span> — przewodność cieplna efektywna rosnąca z wilgotnością; <span class="nowrap">L<sub>v</sub> = 2,45 MJ/kg;</span> <span class="nowrap">L<sub>s</sub> = 2,838 MJ/kg</span></p>
 </div>
 
 <div class="eq">
   <div class="eq-tag">Bilans masy — równanie Künzela</div>
   <code>∂w/∂t = ∇[D<sub>w</sub>(w)∇w + δ<sub>p</sub>(w)∇p<sub>v</sub>] − ṁ<sub>cond</sub> − ṁ<sub>resub</sub></code>
-  <p class="eq-note">D<sub>w</sub>(w) — dyfuzyjność kapilarna; δ<sub>p</sub>(w) — przepuszczalność dyfuzyjna; p<sub>v</sub> — ciśnienie cząstkowe pary wodnej</p>
+  <p class="eq-note"><span class="nowrap">D<sub>w</sub>(w)</span> — dyfuzyjność kapilarna; <span class="nowrap">δ<sub>p</sub>(w)</span> — przepuszczalność dyfuzyjna; <span class="nowrap">p<sub>v</sub></span> — ciśnienie cząstkowe pary wodnej</p>
 </div>
 
 <p>
   Model ten opisuje zachowanie jednorodnego ośrodka. Dla niejednorodnych złączy —
-  gdzie obok siebie istnieją materiały o D<sub>eff</sub> różniących się o 3–4 rzędy wielkości —
+  gdzie obok siebie istnieją materiały o <span class="nowrap">D<sub>eff</sub></span> różniących się o 3–4 rzędy wielkości —
   wymagane jest podejście wielostrefowe lub pełna symulacja 3D,
   ponieważ konwekcja i termodyfuzja wprowadzają sprzężenia, których
   analityczne rozwiązanie jednowymiarowe nie obejmuje.
@@ -534,11 +556,11 @@ footer span { color: var(--gold-lt); }
 
 <p>
   <strong>Dyfuzja molekularna</strong> podlega prawu Ficka ze strumieniem
-  J<sub>dif</sub> = −D<sub>eff</sub>·dp<sub>v</sub>/dx. Efektywny współczynnik
-  dyfuzji pianki OC obliczony modelem Millingtona–Quirka (ε&nbsp;=&nbsp;0,92, τ&nbsp;=&nbsp;1,15)
-  wynosi D<sub>eff,OC</sub>&nbsp;≈&nbsp;1,9×10⁻⁵&nbsp;m²/s — niemal równy dyfuzji
-  swobodnej (D<sub>0</sub>&nbsp;=&nbsp;2,56×10⁻⁵&nbsp;m²/s), co oznacza, że pianka OC
-  jest praktycznie przezroczysta dla pary wodnej. Paroizolacja z S<sub>d</sub>&nbsp;≥&nbsp;150&nbsp;m
+  <span class="nowrap">J<sub>dif</sub> = −D<sub>eff</sub>·dp<sub>v</sub>/dx.</span> Efektywny współczynnik
+  dyfuzji pianki OC obliczony modelem Millingtona–Quirka (<span class="nowrap">ε&nbsp;=&nbsp;0,92,</span> <span class="nowrap">τ&nbsp;=&nbsp;1,15</span>)
+  wynosi <span class="nowrap">D<sub>eff,OC</sub>&nbsp;≈&nbsp;1,9×10⁻⁵&nbsp;m²/s</span> — niemal równy dyfuzji
+  swobodnej (<span class="nowrap">D<sub>0</sub>&nbsp;=&nbsp;2,56×10⁻⁵&nbsp;m²/s</span>), co oznacza, że pianka OC
+  jest praktycznie przezroczysta dla pary wodnej. Paroizolacja z <span class="nowrap">S<sub>d</sub>&nbsp;≥&nbsp;150&nbsp;m</span>
   redukuje ten strumień o ~1000×.
 </p>
 
@@ -551,7 +573,7 @@ footer span { color: var(--gold-lt); }
 <div class="eq">
   <div class="eq-tag">Mikrokonwekcja — prawo Darcy'ego</div>
   <code>Q̇<sub>konw</sub> = k<sub>D</sub> · A · ΔP / (η · L)     k<sub>D,OC</sub> ≈ 10⁻⁹–10⁻¹⁰ m²</code>
-  <p class="eq-note">Dla A = 0,04 m², ΔP = 10 Pa (efekt kominowy przy kalenicay), η = 1,81·10⁻⁵ Pa·s, L = 0,08 m: Q̇ ≈ 2,2·10⁻⁶ m³/s — stały przepływ niezależny od paroizolacji</p>
+  <p class="eq-note">Dla <span class="nowrap">A = 0,04 m²,</span> <span class="nowrap">ΔP = 10 Pa</span> (efekt kominowy przy kalenicay), <span class="nowrap">η = 1,81·10⁻⁵ Pa·s,</span> <span class="nowrap">L = 0,08 m:</span> <span class="nowrap">Q̇ ≈ 2,2·10⁻⁶ m³/s</span> — stały przepływ niezależny od paroizolacji</p>
 </div>
 
 <p>
@@ -561,7 +583,7 @@ footer span { color: var(--gold-lt); }
 <div class="eq">
   <div class="eq-tag">Kryterium dominacji — liczba Pecleta</div>
   <code>Pe = v̄·L / D<sub>eff</sub> = (0,005 · 0,08) / (1,9·10⁻⁵) ≈ 21  ≫  1</code>
-  <p class="eq-note">Pe&nbsp;≫&nbsp;1 oznacza bezwzględną dominację konwekcji nad dyfuzją molekularną. Paroizolacja blokuje dyfuzję, nie konwekcję — te dwa zjawiska podlegają różnym operatorom transportu z różnymi warunkami brzegowymi.</p>
+  <p class="eq-note"><span class="nowrap">Pe&nbsp;≫&nbsp;1</span> oznacza bezwzględną dominację konwekcji nad dyfuzją molekularną. Paroizolacja blokuje dyfuzję, nie konwekcję — te dwa zjawiska podlegają różnym operatorom transportu z różnymi warunkami brzegowymi.</p>
 </div>
 
 <p>
@@ -574,13 +596,13 @@ footer span { color: var(--gold-lt); }
 <div class="eq">
   <div class="eq-tag">Termodyfuzja Soreta</div>
   <code>J<sub>S</sub> = −α<sub>T</sub> · ρ<sub>v</sub> · D<sub>eff</sub> · ∇T     α<sub>T</sub> ≈ 6·10⁻³ K⁻¹</code>
-  <p class="eq-note">∇T w złączach PIR zima ≈ 250–500 K/m → J<sub>S</sub> ≈ 3,2·10⁻⁶ kg/(m²·s). Nie istnieje żadna bariera dyfuzyjna blokująca ten mechanizm — napęd jest termiczny, nie ciśnieniowy.</p>
+  <p class="eq-note"><span class="nowrap">∇T</span> w złączach PIR zima <span class="nowrap">≈ 250–500 K/m</span> → <span class="nowrap">J<sub>S</sub> ≈ 3,2·10⁻⁶ kg/(m²·s).</span> Nie istnieje żadna bariera dyfuzyjna blokująca ten mechanizm — napęd jest termiczny, nie ciśnieniowy.</p>
 </div>
 
 <p>
   Dwa pozostałe mechanizmy — transport kapilarny cieczy (prawo Darcy'ego
-  dla fazy ciekłej) i resublimacja przy T&nbsp;&lt;&nbsp;0°C (zmiana fazowa z uwalnianiem
-  L<sub>s</sub>&nbsp;=&nbsp;2,838&nbsp;MJ/kg i ciśnieniem krystalizacji P<sub>cryst</sub>&nbsp;≈&nbsp;20–200&nbsp;MPa)
+  dla fazy ciekłej) i resublimacja przy <span class="nowrap">T&nbsp;&lt;&nbsp;0°C</span> (zmiana fazowa z uwalnianiem
+  <span class="nowrap">L<sub>s</sub>&nbsp;=&nbsp;2,838&nbsp;MJ/kg</span> i ciśnieniem krystalizacji <span class="nowrap">P<sub>cryst</sub>&nbsp;≈&nbsp;20–200&nbsp;MPa</span>)
   — stają się aktywne dopiero po przekroczeniu progu kondensacji, lecz są kluczowe
   dla mechanizmu kaskadowego zniszczenia w fazach III i IV.
 </p>
@@ -590,26 +612,26 @@ footer span { color: var(--gold-lt); }
 <p>
   Dziurawienie paroizolacji wewnętrznej tworzy mechanizm fizycznie różny
   od dyfuzji przez szczelną folię. Jest to przepływ konwekcyjny przez
-  otwór o przekroju A<sub>leak</sub> pod ciśnieniem ΔP, opisywany równaniem
+  otwór o przekroju <span class="nowrap">A<sub>leak</sub></span> pod ciśnieniem ΔP, opisywany równaniem
   swobodnego wypływu:
 </p>
 
 <div class="eq">
   <div class="eq-tag">Nieszczelność powietrzna — przepływ przez otwór</div>
   <code>ṁ<sub>leak</sub> = C<sub>d</sub> · A<sub>leak</sub> · √(2ρ·ΔP)     C<sub>d</sub> ≈ 0,61</code>
-  <p class="eq-note">Dla A<sub>leak</sub> = 1 mm² (typowy otwór przy łączniku), ΔP = 10 Pa, ρ = 1,2 kg/m³:
-  ṁ<sub>leak</sub> ≈ 2,7·10⁻⁶ kg/s powietrza → ~8 g/h wilgoci per nieszczelność.
+  <p class="eq-note">Dla <span class="nowrap">A<sub>leak</sub> = 1 mm²</span> (typowy otwór przy łączniku), <span class="nowrap">ΔP = 10 Pa,</span> <span class="nowrap">ρ = 1,2 kg/m³:</span>
+  <span class="nowrap">ṁ<sub>leak</sub> ≈ 2,7·10⁻⁶ kg/s</span> powietrza → ~8 g/h wilgoci per nieszczelność.
   Przy 10 łącznikach na metr kalenicy: ~700 g wilgoci/sezon/m — <span class="hl-r">wyłącznie z nieszczelności mechanicznych, bez żadnej dyfuzji.</span></p>
 </div>
 
 <p>
   Kluczowe jest rozróżnienie semantyczne: paroizolacja jest <em>barierą dyfuzyjną</em>
-  (opór wobec dyfuzji molekularnej, opisywany przez S<sub>d</sub>) oraz jednocześnie,
+  (opór wobec dyfuzji molekularnej, opisywany przez <span class="nowrap">S<sub>d</sub></span>) oraz jednocześnie,
   gdy zachowana jest jej ciągłość, <em>barierą powietrzną</em>
   (opór wobec przepływu konwekcyjnego powietrza). Te dwie funkcje są
-  od siebie niezależne fizycznie. Szczelna folia PE o S<sub>d</sub>&nbsp;=&nbsp;15&nbsp;m
+  od siebie niezależne fizycznie. Szczelna folia PE o <span class="nowrap">S<sub>d</sub>&nbsp;=&nbsp;15&nbsp;m</span>
   przestaje być barierą powietrzną w chwili, gdy zostaje przebita jednym łącznikiem.
-  <mark>Wysokie S<sub>d</sub> nominalnego materiału folii nie chroni przed
+  <mark>Wysokie <span class="nowrap">S<sub>d</sub></span> nominalnego materiału folii nie chroni przed
   nieszczelnościami powietrznymi — to dwie ortogonalne właściwości.</mark>
 </p>
 
@@ -617,10 +639,10 @@ footer span { color: var(--gold-lt); }
 
 <div class="tw">
 <table>
-  <thead><tr><th>Materiał / element</th><th>µ [–]</th><th>S<sub>d</sub> (80 mm)</th><th>D<sub>eff</sub> [m²/s]</th><th>Ocena</th></tr></thead>
+  <thead><tr><th>Materiał / element</th><th>µ [–]</th><th><span class="nowrap">S<sub>d</sub></span> (80 mm)</th><th><span class="nowrap">D<sub>eff</sub> [m²/s]</span></th><th>Ocena</th></tr></thead>
   <tbody>
-    <tr><td>Pianka OC — złącza PIR</td><td class="mo">3–5</td><td class="mo">0,24–0,40 m</td><td class="mo">1,9·10⁻⁵</td><td class="bad">⟶ przezroczysta dla pary</td></tr>
-    <tr><td>Rdzeń PIR (płyta)</td><td class="mo">50–200</td><td class="mo">4–16 m</td><td class="mo">6·10⁻⁹</td><td>bariera w płycie</td></tr>
+    <tr><td>Pianka OC — złącza PIR</td><td class="mo">3–5</td><td class="mo">0,24–0,40 m</td><td class="mo"><span class="nowrap">1,9·10⁻⁵</span></td><td class="bad">⟶ przezroczysta dla pary</td></tr>
+    <tr><td>Rdzeń PIR (płyta)</td><td class="mo">50–200</td><td class="mo">4–16 m</td><td class="mo"><span class="nowrap">6·10⁻⁹</span></td><td>bariera w płycie</td></tr>
     <tr><td>Folia PE 0,2 mm — rynek PL</td><td class="mo">50–80 tys.</td><td class="mo">10–16 m</td><td>—</td><td class="bad">10–15× za niska</td></tr>
     <tr><td>Vapor barrier AL/HDPE laminat</td><td class="mo">≥100 tys.</td><td class="mo">≥300 m</td><td>—</td><td class="ok">spełnia dyfuzję</td></tr>
     <tr><td>Membrana zew. paroprzepuszczalna</td><td class="mo">5–10</td><td class="mo">~0,001 m</td><td>—</td><td>suszenie zewnętrzne</td></tr>
@@ -630,9 +652,9 @@ footer span { color: var(--gold-lt); }
 
 <p>
   Warunki brzegowe przyjęte dla Polski, strefa klimatyczna III:
-  T<sub>int</sub>&nbsp;=&nbsp;20°C / φ&nbsp;=&nbsp;55% zimą, T<sub>ext</sub>&nbsp;=&nbsp;−15°C / φ&nbsp;=&nbsp;90% zimą.
-  Gradient Δp<sub>v</sub>&nbsp;≈&nbsp;1200&nbsp;Pa. Efekt kominowy na poziomie kalenicy
-  ΔP&nbsp;≈&nbsp;5–15&nbsp;Pa. Gradient temperatury w złączu ∇T&nbsp;≈&nbsp;250–500&nbsp;K/m zimą.
+  <span class="nowrap">T<sub>int</sub>&nbsp;=&nbsp;20°C</span> / <span class="nowrap">φ&nbsp;=&nbsp;55%</span> zimą, <span class="nowrap">T<sub>ext</sub>&nbsp;=&nbsp;−15°C</span> / <span class="nowrap">φ&nbsp;=&nbsp;90%</span> zimą.
+  Gradient <span class="nowrap">Δp<sub>v</sub>&nbsp;≈&nbsp;1200&nbsp;Pa.</span> Efekt kominowy na poziomie kalenicy
+  <span class="nowrap">ΔP&nbsp;≈&nbsp;5–15&nbsp;Pa.</span> Gradient temperatury w złączu <span class="nowrap">∇T&nbsp;≈&nbsp;250–500&nbsp;K/m</span> zimą.
 </p>
 
 </section>
@@ -658,7 +680,7 @@ footer span { color: var(--gold-lt); }
 <div class="joint-grid">
   <div class="jcard jc-red">
     <div class="jcard-title">Kaleniec</div>
-    Najwyższy punkt dachu. Maksymalny efekt kominowy (ΔP = 10–15 Pa),
+    Najwyższy punkt dachu. Maksymalny efekt kominowy (<span class="nowrap">ΔP = 10–15 Pa</span>),
     maksymalny gradient temperatury, zbieżność strumieni konwekcyjnych
     obu połaci. Pierwsza strefa osiągająca bifurkację.
   </div>
@@ -708,19 +730,19 @@ footer span { color: var(--gold-lt); }
 <div class="eq">
   <div class="eq-tag">Całkowity napływ wilgoci z nieszczelności — szacowanie</div>
   <code>ṁ<sub>total</sub> = n · C<sub>d</sub> · A<sub>leak</sub> · √(2ρ·ΔP) · c<sub>v</sub>(T<sub>int</sub>, φ<sub>int</sub>)</code>
-  <p class="eq-note">Dla n = 500 łączników, A<sub>leak</sub> = 0,5 mm² per łącznik, ΔP = 10 Pa:
-  ṁ<sub>wilgoci</sub> ≈ 1,7 kg/dobę w warunkach zimowych.
+  <p class="eq-note">Dla <span class="nowrap">n = 500 łączników,</span> <span class="nowrap">A<sub>leak</sub> = 0,5 mm²</span> per łącznik, <span class="nowrap">ΔP = 10 Pa:</span>
+  <span class="nowrap">ṁ<sub>wilgoci</sub> ≈ 1,7 kg/dobę</span> w warunkach zimowych.
   Dla sezonu grzewczego 150 dni: ~250 kg wilgoci wpompowanej do konstrukcji dachu
   wyłącznie przez nieszczelności mechaniczne.</p>
 </div>
 
 <p>
   Skala tego strumienia w stosunku do dyfuzji przez szczelną folię PE jest
-  wstrząsająca. Szczelna folia PE 0,2&nbsp;mm (S<sub>d</sub>&nbsp;=&nbsp;15&nbsp;m) przy Δp<sub>v</sub>&nbsp;=&nbsp;1200&nbsp;Pa
+  wstrząsająca. Szczelna folia PE 0,2&nbsp;mm (<span class="nowrap">S<sub>d</sub>&nbsp;=&nbsp;15&nbsp;m</span>) przy <span class="nowrap">Δp<sub>v</sub>&nbsp;=&nbsp;1200&nbsp;Pa</span>
   przepuszcza przez 200&nbsp;m² dachu ok.&nbsp;6–12&nbsp;kg wilgoci na sezon dyfuzją.
   Ten sam dach z 500 nieszczelnymi łącznikami przepuszcza konwekcją 200–300&nbsp;kg —
   <strong class="k">20–50× więcej przez nieszczelności niż przez materiał folii.</strong>
-  Innymi słowy: poprawa S<sub>d</sub> folii z 15&nbsp;m do 300&nbsp;m zmniejsza
+  Innymi słowy: poprawa <span class="nowrap">S<sub>d</sub></span> folii z 15&nbsp;m do 300&nbsp;m zmniejsza
   problem dyfuzyjny 20-krotnie i czyni go marginalnym — lecz nie dotyka
   w żaden sposób 97% strumienia wilgoci transportowanego konwekcją
   przez nieszczelności mechaniczne.
@@ -731,7 +753,7 @@ footer span { color: var(--gold-lt); }
   <p>
     Dla typowego dachu PIR z dziurawioną paroizolacją dominujący strumień wilgoci
     pochodzi <strong>nie z dyfuzji przez materiał folii, lecz z konwekcji przez nieszczelności
-    mechaniczne</strong>. Optymalizacja S<sub>d</sub> folii bez jednoczesnego zapewnienia
+    mechaniczne</strong>. Optymalizacja <span class="nowrap">S<sub>d</sub></span> folii bez jednoczesnego zapewnienia
     ciągłości powietrznej jest działaniem adresującym podrzędny mechanizm
     przy ignorowaniu dominującego. Analogia: uszczelnianie porów ściany przy
     otwartym oknie.
@@ -752,7 +774,7 @@ footer span { color: var(--gold-lt); }
   Dodatkowa paroizolacja przylegająca bezpośrednio do pianki OC od strony ciepłej
   nie zmienia bilansu wilgotności w złączu, ponieważ mikrokonwekcja nie przenika
   <em>przez</em> paroizolację — przenika <em>przez samą piankę OC</em>
-  wzdłuż gradientu ciśnienia. Pianka OC ma k<sub>D</sub>&nbsp;≈&nbsp;10⁻⁹&nbsp;m²
+  wzdłuż gradientu ciśnienia. Pianka OC ma <span class="nowrap">k<sub>D</sub>&nbsp;≈&nbsp;10⁻⁹&nbsp;m²</span>
   i jest przepuszczalna dla powietrza pod ciśnieniem ΔP na całej swojej objętości.
   Efekt kominowy działa na piankę OC jako ośrodek porowaty — folia po jednej
   stronie tej objętości nie zeruje pola ciśnień wewnątrz niej,
@@ -763,16 +785,16 @@ footer span { color: var(--gold-lt); }
 <div class="box box-dark">
   <div class="box-tag">Twierdzenie graniczne — sformułowanie precyzyjne</div>
   <p>
-    <strong>Żadna bariera dyfuzyjna — niezależnie od jej S<sub>d</sub>, lokalizacji
+    <strong>Żadna bariera dyfuzyjna — niezależnie od jej <span class="nowrap">S<sub>d</sub>,</span> lokalizacji
     względem pianki OC i przylegania do pianki — nie może zredukować
-    strumienia konwekcyjnego przez ośrodek porowaty o k<sub>D</sub>&nbsp;≈&nbsp;10⁻⁹&nbsp;m²
+    strumienia konwekcyjnego przez ośrodek porowaty o <span class="nowrap">k<sub>D</sub>&nbsp;≈&nbsp;10⁻⁹&nbsp;m²</span>
     pozostający pod niezerowym gradientem ciśnienia ΔP.</strong>
   </p>
   <p>
     Paroizolacja dyfuzyjna i bariera konwekcyjna to dwie ortogonalne właściwości
     podlegające różnym operatorom transportu z różnymi warunkami brzegowymi.
-    Folia blokuje operator dyfuzji (δ<sub>p</sub>·∇p<sub>v</sub>), nie dotykając
-    operatora konwekcji (k<sub>D</sub>/η·ΔP). Termodyfuzja Soreta (α<sub>T</sub>·ρ<sub>v</sub>·D<sub>eff</sub>·∇T)
+    Folia blokuje operator dyfuzji (<span class="nowrap">δ<sub>p</sub>·∇p<sub>v</sub></span>), nie dotykając
+    operatora konwekcji (<span class="nowrap">k<sub>D</sub>/η·ΔP</span>). Termodyfuzja Soreta (<span class="nowrap">α<sub>T</sub>·ρ<sub>v</sub>·D<sub>eff</sub>·∇T</span>)
     jest trzecim, niezależnym operatorem napędzanym polem temperatury.
     Jedynym sposobem eliminacji transportu konwekcyjnego przez złącze jest
     eliminacja ośrodka porowatego (pianki OC) — nie doszczelnienie istniejącej bariery.
@@ -789,16 +811,16 @@ footer span { color: var(--gold-lt); }
 <div class="eq">
   <div class="eq-tag">Bilans wilgoci w złączu — warunek stacjonarności</div>
   <code>dM/dt = J<sub>dif</sub> + J<sub>konw</sub> + J<sub>Soret</sub> + J<sub>cap</sub> + J<sub>leak</sub> − J<sub>dry</sub></code>
-  <p class="eq-note">J<sub>dry</sub> ≈ 0 w złączu zamkniętym między taśmą zewnętrzną a paroizolacją wewnętrzną.
-  J<sub>konw</sub> i J<sub>Soret</sub> są niezależne od wariantu paroizolacji.
-  J<sub>leak</sub> jest niezależne od S<sub>d</sub> folii. W każdym wariancie:
-  <strong>dM/dt &gt; 0 — funkcja monotonicznie rosnąca.</strong></p>
+  <p class="eq-note"><span class="nowrap">J<sub>dry</sub> ≈ 0</span> w złączu zamkniętym między taśmą zewnętrzną a paroizolacją wewnętrzną.
+  <span class="nowrap">J<sub>konw</sub></span> i <span class="nowrap">J<sub>Soret</sub></span> są niezależne od wariantu paroizolacji.
+  <span class="nowrap">J<sub>leak</sub></span> jest niezależne od <span class="nowrap">S<sub>d</sub></span> folii. W każdym wariancie:
+  <strong><span class="nowrap">dM/dt &gt; 0</span> — funkcja monotonicznie rosnąca.</strong></p>
 </div>
 
 <p>
   Kluczowym czynnikiem jest asymetria między sezonem zimowym a letnim.
   Zimą wszystkie pięć strumieni działa jednocześnie i z pełną intensywnością.
-  Latem w polskich warunkach klimatycznych gradient Δp<sub>v,lato</sub>&nbsp;≈&nbsp;100–300&nbsp;Pa
+  Latem w polskich warunkach klimatycznych gradient <span class="nowrap">Δp<sub>v,lato</sub>&nbsp;≈&nbsp;100–300&nbsp;Pa</span>
   jest 4–12× za mały by ewakuować wilgoć nagromadzoną zimą,
   a pianka OC zamknięta między taśmą aluminiową zewnętrzną
   a paroizolacją wewnętrzną nie ma żadnej drogi odprowadzenia
@@ -819,17 +841,17 @@ footer span { color: var(--gold-lt); }
   <div class="tphase ph2">
     <div class="tp-label">Faza II · Lata 2–5 (B: 1–3, C: 1–2)</div>
     <div class="tp-title">Akumulacja i kondensacja — nasycenie OC, kondensat na aluminium PIR</div>
-    <p>Para wodna transportowana przez OC osiąga strefę T &lt; T<sub>dew</sub> przy okładzinie aluminiowej płyt PIR. Pianka OC osiąga wilgotność masową w<sub>sat</sub>. Kondensat migruje do rdzenia PIR przez mikroszczeliny w okładzinie. Tworzy się termiczny mostek wilgotnościowy o λ<sub>eff</sub> rosnącym 3–10×. W przypadku scenariusza z nieszczelną paroizolacją Faza II przebiega 3–5× szybciej z powodu bezpośredniego dopływu wilgotnego powietrza konwekcją.</p>
+    <p>Para wodna transportowana przez OC osiąga strefę <span class="nowrap">T &lt; T<sub>dew</sub></span> przy okładzinie aluminiowej płyt PIR. Pianka OC osiąga wilgotność masową <span class="nowrap">w<sub>sat</sub>.</span> Kondensat migruje do rdzenia PIR przez mikroszczeliny w okładzinie. Tworzy się termiczny mostek wilgotnościowy o <span class="nowrap">λ<sub>eff</sub></span> rosnącym 3–10×. W przypadku scenariusza z nieszczelną paroizolacją Faza II przebiega 3–5× szybciej z powodu bezpośredniego dopływu wilgotnego powietrza konwekcją.</p>
   </div>
   <div class="tphase ph3">
     <div class="tp-label">Faza III · Lata 4–8 (B: 2–5, C: 1–4)</div>
     <div class="tp-title">Bifurkacja termomechaniczna — punkt bez powrotu</div>
-    <p>Przy T &lt; 0°C kondensat zamarza. Ciśnienie krystalizacji P<sub>cryst</sub> ≈ 20–200 MPa niszczy adhezję pianki OC, pęka okładzina aluminiowa płyt PIR, degradują uszczelnienia taśm zewnętrznych. Szczelina h przekracza wartość krytyczną 2,5 mm, przy której Ra &gt; Ra<sub>cr</sub> = 1708 i inicjuje się autonomiczna konwekcja termiczna — samowzmacniający pętla destrukcji. Po przekroczeniu Ra<sub>cr</sub> powrót do stanu pierwotnego jest energetycznie niemożliwy. Bifurkacja zachodzi najpierw przy kalenicay, następnie stopniowo w kolejnych złączach bocznych.</p>
+    <p>Przy <span class="nowrap">T &lt; 0°C</span> kondensat zamarza. Ciśnienie krystalizacji <span class="nowrap">P<sub>cryst</sub> ≈ 20–200 MPa</span> niszczy adhezję pianki OC, pęka okładzina aluminiowa płyt PIR, degradują uszczelnienia taśm zewnętrznych. Szczelina h przekracza wartość krytyczną 2,5 mm, przy której <span class="nowrap">Ra &gt; Ra<sub>cr</sub> = 1708</span> i inicjuje się autonomiczna konwekcja termiczna — samowzmacniający pętla destrukcji. Po przekroczeniu <span class="nowrap">Ra<sub>cr</sub></span> powrót do stanu pierwotnego jest energetycznie niemożliwy. Bifurkacja zachodzi najpierw przy kalenicay, następnie stopniowo w kolejnych złączach bocznych.</p>
   </div>
   <div class="tphase ph4">
     <div class="tp-label">Faza IV · Lata 8–15 (B: 5–10, C: 3–8)</div>
     <div class="tp-title">Degradacja materiałowa — hydroliza PIR, grzyby, korozja</div>
-    <p>λ<sub>eff</sub> złącza rośnie od 0,03 do 0,60 W/(mK) — 20× powyżej wartości projektowej. Współczynnik przenikania ciepła U całego dachu przekracza wymagania WT 2021. Hydroliza PIR uwalnia diizocyjaniany (MDI, TDI — kancerogeny gr. 3 IARC) i aminy aromatyczne (4,4'-MDA — gr. 2B). Wilgotność drewna więźby przekracza 20% (m/m) — próg aktywacji grzybów rozkładu Basidiomycota. Pierwsze widoczne objawy: plamy na sufitach, zapach stęchlizny, odbarwienia płyt OSB.</p>
+    <p><span class="nowrap">λ<sub>eff</sub></span> złącza rośnie od 0,03 do <span class="nowrap">0,60 W/(mK)</span> — 20× powyżej wartości projektowej. Współczynnik przenikania ciepła U całego dachu przekracza wymagania WT 2021. Hydroliza PIR uwalnia diizocyjaniany (MDI, TDI — kancerogeny gr. 3 IARC) i aminy aromatyczne (4,4'-MDA — gr. 2B). Wilgotność drewna więźby przekracza 20% (m/m) — próg aktywacji grzybów rozkładu Basidiomycota. Pierwsze widoczne objawy: plamy na sufitach, zapach stęchlizny, odbarwienia płyt OSB.</p>
   </div>
   <div class="tphase ph5">
     <div class="tp-label">Faza V · Lata 12–25 (B: 8–15, C: 5–12)</div>
@@ -841,7 +863,7 @@ footer span { color: var(--gold-lt); }
 <div class="box box-warn">
   <div class="box-tag">Wniosek z prognozy</div>
   <p>
-    Norma PN-EN&nbsp;1990 wymaga trwałości 50 lat. Scenariusz A (vapor barrier, bez nieszczelności)
+    Norma <span class="nowrap">PN-EN&nbsp;1990</span> wymaga trwałości 50 lat. Scenariusz A (vapor barrier, bez nieszczelności)
     narusza to kryterium o ~25 lat. Scenariusz B (folia PE, typowe nieszczelności)
     narusza o ~35 lat. Scenariusz C (brak paroizolacji / masowe nieszczelności)
     narusza o ~38–45 lat. Paroizolacja przesuwa moment krytyczny o 5–10 lat — nie zmienia
@@ -856,11 +878,11 @@ footer span { color: var(--gold-lt); }
   <thead><tr><th>Mechanizm transportu</th><th>Paroizolacja dyfuzyjna?</th><th>Ciągłość powietrzna?</th><th>Eliminacja OC?</th></tr></thead>
   <tbody>
     <tr><td>Dyfuzja molekularna</td><td class="ok">✓ Redukuje ~1000×</td><td class="ok">✓ Redukuje</td><td class="ok">✓ Eliminuje</td></tr>
-    <tr><td>Mikrokonwekcja (Pe = 21)</td><td class="bad">✗ Brak wpływu</td><td class="mid">△ Częściowo</td><td class="ok">✓ Eliminuje</td></tr>
+    <tr><td>Mikrokonwekcja (<span class="nowrap">Pe = 21</span>)</td><td class="bad">✗ Brak wpływu</td><td class="mid">△ Częściowo</td><td class="ok">✓ Eliminuje</td></tr>
     <tr><td>Termodyfuzja Soreta</td><td class="bad">✗ Brak wpływu</td><td class="bad">✗ Brak wpływu</td><td class="ok">✓ Eliminuje</td></tr>
     <tr><td>Nieszczelności mechaniczne</td><td class="bad">✗ Brak wpływu</td><td class="ok">✓ Eliminuje</td><td class="mid">△ Zmniejsza</td></tr>
     <tr><td>Brak potencjału suszenia</td><td class="bad">✗ Pogarsza</td><td class="bad">✗ Brak wpływu</td><td class="ok">✓ Przywraca suszenie</td></tr>
-    <tr><td>Konwekcja termiczna Ra&gt;Racr</td><td class="bad">✗ Brak wpływu</td><td class="bad">✗ Brak wpływu</td><td class="ok">✓ Eliminuje źródło</td></tr>
+    <tr><td>Konwekcja termiczna <span class="nowrap">Ra&gt;Racr</span></td><td class="bad">✗ Brak wpływu</td><td class="bad">✗ Brak wpływu</td><td class="ok">✓ Eliminuje źródło</td></tr>
   </tbody>
 </table>
 </div>
@@ -909,22 +931,22 @@ footer span { color: var(--gold-lt); }
   Prace Hensa (2007) i Sedlbauera (2001) wskazują na niejednorodności lokalne
   jako dominujące źródło problemów wilgotnościowych w przegrodach wielowarstwowych,
   co bezpośrednio koreluje z opisaną tutaj rolą złączy OC jako ognisk niestabilności.
-  Kryterium Rayleigha Ra<sub>cr</sub>&nbsp;=&nbsp;1708 dla inicjacji konwekcji termicznej
+  Kryterium Rayleigha <span class="nowrap">Ra<sub>cr</sub>&nbsp;=&nbsp;1708</span> dla inicjacji konwekcji termicznej
   w szczelinie jest wartością dobrze ustaloną w literaturze mechaniki płynów (Chandrasekhar 1961)
   i zostało potwierdzone eksperymentalnie dla warunków dachowych w badaniach
   Fraunhofer IBP. Symulacje WUFI Pro dla geometrycznie analogicznych złączy
-  wykazują monotoniczne narastanie wilgotności przy D<sub>eff</sub>&nbsp;&gt;&nbsp;10⁻⁶&nbsp;m²/s
+  wykazują monotoniczne narastanie wilgotności przy <span class="nowrap">D<sub>eff</sub>&nbsp;&gt;&nbsp;10⁻⁶&nbsp;m²/s</span>
   w kombinacji z brakiem drogi suszenia.
 </p>
 
-<h3>Implikacje dla normatywne i projektowe</h3>
+<h3>Implikacje normatywne i projektowe</h3>
 
 <p>
-  Analiza ujawnia lukę normatywną: PN-EN&nbsp;13788 i WT&nbsp;2021 wymagają
+  Analiza ujawnia lukę normatywną: <span class="nowrap">PN-EN&nbsp;13788</span> i <span class="nowrap">WT&nbsp;2021</span> wymagają
   weryfikacji przegrody, nie złączy jako osobnych węzłów obliczeniowych.
   Brak obowiązku badania szczelności powietrznej (blower-door test)
   poza budownictwem pasywnym oznacza, że nieszczelności paroizolacji
-  nigdy nie są mierzone przy odbiorze. Wymagane S<sub>d</sub> paroizolacji
+  nigdy nie są mierzone przy odbiorze. Wymagane <span class="nowrap">S<sub>d</sub></span> paroizolacji
   nie jest wartością kontraktową w specyfikacjach przetargowych
   dla 80–90% polskich dachów PIR. Te luki normatywne mają bezpośrednie
   konsekwencje dla skali problemu i braku mechanizmu jego wykrywania.
@@ -937,9 +959,9 @@ footer span { color: var(--gold-lt); }
   przybliżeniach i szacowaniach parametrów materiałowych z literatury.
   Pełna walidacja wymaga: symulacji 3D złączy w środowisku DELPHIN
   z rzeczywistą geometrią i parametrami mierzonymi, empirycznego pomiaru
-  k<sub>D</sub> dla pian OC różnych producentów metodą przepływomierza różnicowego,
+  <span class="nowrap">k<sub>D</sub></span> dla pian OC różnych producentów metodą przepływomierza różnicowego,
   in-situ monitoringu wilgotności (czujniki hygrotermiczne instalowane
-  w złączach na etapie budowy), oraz badania korelacji między n<sub>50</sub>
+  w złączach na etapie budowy), oraz badania korelacji między <span class="nowrap">n<sub>50</sub></span>
   (wynik blower-door) a tempem akumulacji wilgoci w strukturze.
   Każda z tych ścieżek weryfikacji jest technicznie i kosztowo dostępna.
 </p>
@@ -957,43 +979,58 @@ footer span { color: var(--gold-lt); }
 
 <div class="concl">
   <div class="ci">
-    Każde złącze w systemie nakrokwiowej izolacji PIR wypełnione pianką otwartokomórkową
-    (µ&nbsp;≈&nbsp;3–5) stanowi lokalny węzeł niestabilności wilgotnościowej bez stanu
-    stacjonarnego: dM/dt&nbsp;&gt;&nbsp;0 jest funkcją monotonicznie rosnącą niezależnie od wariantu
-    paroizolacji. Problem ma charakter systemowy i obejmuje kaleniec, wszystkie złącza
-    boczne między płytami, okap oraz naroża — łącznie 200–500 mb złączy na typowym dachu.
+    <div class="ci-num">1</div>
+    <div class="ci-body">
+      Każde złącze w systemie nakrokwiowej izolacji PIR wypełnione pianką otwartokomórkową
+      (<span class="nowrap">µ&nbsp;≈&nbsp;3–5</span>) stanowi lokalny węzeł niestabilności wilgotnościowej bez stanu
+      stacjonarnego: <span class="nowrap">dM/dt&nbsp;&gt;&nbsp;0</span> jest funkcją monotonicznie rosnącą niezależnie od wariantu
+      paroizolacji. Problem ma charakter systemowy i obejmuje kaleniec, wszystkie złącza
+      boczne między płytami, okap oraz naroża — łącznie 200–500 mb złączy na typowym dachu.
+    </div>
   </div>
   <div class="ci">
-    Dominującymi mechanizmami transportu wilgoci są mikrokonwekcja (Pe&nbsp;≈&nbsp;21&nbsp;≫&nbsp;1)
-    i termodyfuzja Soreta, podlegające operatorom fizycznym niezależnym od
-    S<sub>d</sub> bariery dyfuzyjnej. Żadna paroizolacja — niezależnie od jej S<sub>d</sub>
-    i niezależnie od jej lokalizacji względem pianki — nie może zredukować tych strumieni.
-    Jedynym skutecznym środkiem jest eliminacja ośrodka porowatego (pianki OC)
-    z węzłów transportu wilgoci.
+    <div class="ci-num">2</div>
+    <div class="ci-body">
+      Dominującymi mechanizmami transportu wilgoci są mikrokonwekcja (<span class="nowrap">Pe&nbsp;≈&nbsp;21&nbsp;≫&nbsp;1</span>)
+      i termodyfuzja Soreta, podlegające operatorom fizycznym niezależnym od
+      <span class="nowrap">S<sub>d</sub></span> bariery dyfuzyjnej. Żadna paroizolacja — niezależnie od jej <span class="nowrap">S<sub>d</sub></span>
+      i niezależnie od jej lokalizacji względem pianki — nie może zredukować tych strumieni.
+      Jedynym skutecznym środkiem jest eliminacja ośrodka porowatego (pianki OC)
+      z węzłów transportu wilgoci.
+    </div>
   </div>
   <div class="ci">
-    Nieszczelności mechaniczne paroizolacji wewnętrznej generują konwekcyjny strumień
-    wilgoci o intensywności 20–50× przewyższającej dyfuzję przez materiał folii.
-    Dla typowego dachu 200&nbsp;m² z 500 nieszczelnymi łącznikami szacunkowy napływ wilgoci
-    przez nieszczelności wynosi 200–300&nbsp;kg na sezon. Optymalizacja S<sub>d</sub> folii
-    bez zapewnienia ciągłości powietrznej adresuje podrzędny mechanizm przy ignorowaniu
-    dominującego.
+    <div class="ci-num">3</div>
+    <div class="ci-body">
+      Nieszczelności mechaniczne paroizolacji wewnętrznej generują konwekcyjny strumień
+      wilgoci o intensywności 20–50× przewyższającej dyfuzję przez materiał folii.
+      Dla typowego dachu 200&nbsp;m² z 500 nieszczelnymi łącznikami szacunkowy napływ wilgoci
+      przez nieszczelności wynosi 200–300&nbsp;kg na sezon. Optymalizacja <span class="nowrap">S<sub>d</sub></span> folii
+      bez zapewnienia ciągłości powietrznej adresuje podrzędny mechanizm przy ignorowaniu
+      dominującego.
+    </div>
   </div>
   <div class="ci">
-    Paroizolacja dyfuzyjna i bariera powietrzna to dwie ortogonalne funkcje tej samej folii,
-    podlegające różnym operatorom transportu. Wysoki S<sub>d</sub> nominalny folii nie chroni
-    przed konwekcją przez nieszczelności mechaniczne. Skuteczna ochrona wilgotnościowa
-    wymaga jednocześnie: wysokiego S<sub>d</sub> ≥ 150&nbsp;m <em>oraz</em> pełnej ciągłości
-    powietrznej weryfikowanej blower-door testem (n<sub>50</sub>&nbsp;≤&nbsp;1,5&nbsp;h⁻¹).
+    <div class="ci-num">4</div>
+    <div class="ci-body">
+      Paroizolacja dyfuzyjna i bariera powietrzna to dwie ortogonalne funkcje tej samej folii,
+      podlegające różnym operatorom transportu. Wysokie <span class="nowrap">S<sub>d</sub></span> nominalne folii nie chroni
+      przed konwekcją przez nieszczelności mechaniczne. Skuteczna ochrona wilgotnościowa
+      wymaga jednocześnie: wysokiego <span class="nowrap">S<sub>d</sub> ≥ 150&nbsp;m</span> <em>oraz</em> pełnej ciągłości
+      powietrznej weryfikowanej blower-door testem (<span class="nowrap">n<sub>50</sub>&nbsp;≤&nbsp;1,5&nbsp;h⁻¹</span>).
+    </div>
   </div>
   <div class="ci">
-    Wszystkie kombinacje wariantów (złącza OC × nieszczelna/szczelna paroizolacja)
-    prowadzą do kaskadowej degradacji strukturalnej w horyzoncie 5–25 lat,
-    z naruszeniem kryterium trwałości 50 lat normy PN-EN&nbsp;1990 o 25–45 lat.
-    Paroizolacja opóźnia moment krytyczny o 5–10 lat — nie zmienia nieuchronności procesu.
-    Koszty naprawy Fazy V wynoszą 10–15× więcej niż prawidłowe wykonanie pierwotne,
-    nie wliczając kosztów zdrowotnych ekspozycji na mykotoksyny i diizocyjaniany
-    przez lata ukrytej degradacji.
+    <div class="ci-num">5</div>
+    <div class="ci-body">
+      Wszystkie kombinacje wariantów (złącza OC × nieszczelna/szczelna paroizolacja)
+      prowadzą do kaskadowej degradacji strukturalnej w horyzoncie 5–25 lat,
+      z naruszeniem kryterium trwałości 50 lat normy <span class="nowrap">PN-EN&nbsp;1990</span> o 25–45 lat.
+      Paroizolacja opóźnia moment krytyczny o 5–10 lat — nie zmienia nieuchronności procesu.
+      Koszty naprawy Fazy V wynoszą 10–15× więcej niż prawidłowe wykonanie pierwotne,
+      nie wliczając kosztów zdrowotnych ekspozycji na mykotoksyny i diizocyjaniany
+      przez lata ukrytej degradacji.
+    </div>
   </div>
 </div>
 
@@ -1003,13 +1040,13 @@ footer span { color: var(--gold-lt); }
     Pierwsze wymaganie to eliminacja pianki OC ze wszystkich złączy — zastąpienie materiałem
     o µ &gt; 100 (pianka zamkniętokomórkowa CC SPF, listwy EPDM prefabrykowane)
     lub zapewnienie ciągłości termicznej PIR bez szczeliny wypełnionej OC.
-    Drugie to vapor barrier S<sub>d</sub>&nbsp;≥&nbsp;150&nbsp;m z pełną ciągłością powietrzną
+    Drugie to vapor barrier <span class="nowrap">S<sub>d</sub>&nbsp;≥&nbsp;150&nbsp;m</span> z pełną ciągłością powietrzną
     — złącza na klej butylowy lub MS-polimer, uszczelnianie łączników mechanicznych
     manszhetami, weryfikacja blower-door po montażu.
     Trzecie to weryfikacja HAM (WUFI/DELPHIN) złączy jako osobnych węzłów obliczeniowych,
     nie wyłącznie płaskiego przekroju połaci.
     <strong>Brak spełnienia wszystkich trzech warunków czyni projekt niezgodnym
-    z PN-EN&nbsp;15026 i WT&nbsp;2021 w zakresie trwałości 50 lat.</strong>
+    z <span class="nowrap">PN-EN&nbsp;15026</span> i <span class="nowrap">WT&nbsp;2021</span> w zakresie trwałości 50 lat.</strong>
   </p>
 </div>
 
@@ -1035,7 +1072,7 @@ footer span { color: var(--gold-lt); }
   <p><code>[7]</code> Millington R.J., Quirk J.P. (1961). Permeability of porous solids. <em>Transactions of the Faraday Society</em>, 57, 1200–1207.</p>
   <p><code>[8]</code> Hens H. (2007). <em>Building Physics — Heat, Air and Moisture.</em> Ernst &amp; Sohn, Berlin.</p>
   <p><code>[9]</code> Sedlbauer K. (2001). <em>Prediction of Mould Fungus Formation on the Surface of and inside Building Components.</em> Fraunhofer IBP, Stuttgart.</p>
-  <p><code>[10]</code> Chandrasekhar S. (1961). <em>Hydrodynamic and Hydromagnetic Stability.</em> Oxford University Press. [Kryterium Ra<sub>cr</sub> = 1708]</p>
+  <p><code>[10]</code> Chandrasekhar S. (1961). <em>Hydrodynamic and Hydromagnetic Stability.</em> Oxford University Press. [Kryterium <span class="nowrap">Ra<sub>cr</sub> = 1708</span>]</p>
   <p><code>[11]</code> Zirkelbach D., Schafaczek B., Künzel H.M. (2010). Hygrothermal simulation of flat roofs with interior insulation. <em>Proceedings of the 3rd International Building Physics Conference</em>, Montreal.</p>
   <p style="margin-top:1.2rem;"><strong>Narzędzia numeryczne</strong></p>
   <p><code>[12]</code> WUFI Pro 6.x — Wärme und Feuchte Instationär. Fraunhofer Institut für Bauphysik, Holzkirchen.</p>
@@ -1046,7 +1083,7 @@ footer span { color: var(--gold-lt); }
 <hr>
 <p style="font-size:0.85rem; color:#7a6a50; font-style:italic; text-align:center; max-width:none; line-height:1.7; padding-bottom: 0.5rem;">
   Opisany problem jest błędem systemowym wynikającym z luki wiedzy inżynierskiej
-  na styku projektowania, dystrybucji i wykonawstwa. Norma PN-EN&nbsp;1990 wymaga 50 lat trwałości.
+  na styku projektowania, dystrybucji i wykonawstwa. Norma <span class="nowrap">PN-EN&nbsp;1990</span> wymaga 50 lat trwałości.
   Opisane błędy skracają żywotność układu dachowego do 5–25 lat.
 </p>
 
