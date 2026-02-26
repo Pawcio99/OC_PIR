@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Niestabilność Wilgotnościowa Złączy PIR — Majsterek 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #16120e;
+  --paper:    #f8f5ef;
+  --cream:    #f0ead8;
+  --rule:     #c4b49a;
+  --rule-lt:  #ddd0ba;
+  --gold:     #8a6310;
+  --gold-lt:  #c4900c;
+  --red:      #721818;
+  --red-md:   #a82424;
+  --red-lt:   #fae8e8;
+  --blue:     #162d4a;
+  --blue-md:  #2a5278;
+  --blue-lt:  #dce8f5;
+  --amber:    #fdf2d0;
+  --green-lt: #e6f4e0;
+  --prose:    620px;
+  --wide:     860px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 18px; }
+
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.9;
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══ RUNNING HEAD ══ */
+.rh {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--ink);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 2.5rem;
+  border-bottom: 2px solid var(--gold);
+}
+.rh-left { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+.rh-right { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-lt); }
+
+/* ══ LAYOUT ══ */
+.wrap { max-width: var(--wide); margin: 0 auto; padding: 0 2.5rem 7rem; }
+
+/* ══ MASTHEAD ══ */
+.mast {
+  padding: 5.5rem 0 3.5rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 3.5rem;
+}
+.mast-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.8rem;
+}
+.mast h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700; line-height: 1.12;
+  color: var(--blue);
+  max-width: 730px;
+  margin-bottom: 1rem;
+}
+.mast h1 em { font-style: italic; color: var(--red-md); }
+.mast-sub {
+  font-size: 1rem; font-style: italic; color: #5a4e3a;
+  max-width: 600px; line-height: 1.65; margin-bottom: 2.2rem;
+}
+.mast-byline {
+  display: flex; flex-wrap: wrap; gap: 2.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.67rem; letter-spacing: 0.08em; color: #7a6a50;
+}
+.mast-byline strong { color: var(--ink); display: block; }
+
+/* ══ ABSTRACT ══ */
+.abs {
+  background: var(--cream);
+  border-left: 4px solid var(--blue-md);
+  padding: 1.6rem 2rem;
+  margin-bottom: 3.5rem;
+  border-radius: 0 5px 5px 0;
+}
+.abs-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--blue-md); margin-bottom: 0.9rem;
+}
+.abs p { font-size: 0.97rem; line-height: 1.78; margin-bottom: 0.7rem; }
+.abs p:last-child { margin: 0; }
+.kw {
+  margin-top: 1.1rem; padding-top: 0.8rem;
+  border-top: 1px solid var(--rule-lt);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; color: #6a5a40; letter-spacing: 0.04em;
+}
+.kw strong { color: var(--ink); }
+
+/* ══ TOC ══ */
+.toc {
+  background: #fff;
+  border: 1px solid var(--rule-lt);
+  border-radius: 6px;
+  padding: 1.4rem 1.8rem;
+  margin-bottom: 4rem;
+  max-width: 460px;
+}
+.toc-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1rem;
+}
+.toc-item {
+  display: flex; align-items: baseline; gap: 0.7rem;
+  padding: 0.28rem 0;
+  border-bottom: 1px dotted #ddd;
+  font-size: 0.94rem;
+}
+.toc-item:last-child { border: none; }
+.toc-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; color: var(--gold); min-width: 24px; flex-shrink: 0;
+}
+.toc a { color: var(--blue); text-decoration: none; }
+.toc a:hover { color: var(--red-md); text-decoration: underline; }
+
+/* ══ SECTION ══ */
+section { margin-bottom: 4.5rem; }
+
+.sec-head {
+  display: flex; align-items: baseline; gap: 1.1rem;
+  margin-bottom: 1.8rem; padding-bottom: 0.7rem;
+  border-bottom: 2px solid var(--rule);
+}
+.sec-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.16em; color: var(--gold); flex-shrink: 0;
+}
+.sec-head h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.45rem; font-weight: 700; color: var(--blue); line-height: 1.25;
+}
+
+h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.12rem; font-weight: 600; font-style: italic;
+  color: var(--ink); margin: 2.2rem 0 0.8rem;
+}
+
+/* ══ PROSE ══ */
+p { margin-bottom: 1.1rem; max-width: var(--prose); }
+p.wide { max-width: var(--wide); }
+
+/* ══ FORMULA ══ */
+.eq {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-left: 4px solid var(--blue-md);
+  border-radius: 0 5px 5px 0;
+  padding: 1rem 1.5rem;
+  margin: 1.4rem 0;
+  overflow-x: auto;
+}
+.eq-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.5rem;
+}
+.eq code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.84rem; color: #1a1a8a;
+  display: block; line-height: 2;
+}
+.eq-note {
+  font-size: 0.83rem; color: #555; font-style: italic;
+  margin-top: 0.5rem; line-height: 1.6; max-width: none;
+  margin-bottom: 0;
+}
+
+/* ══ CALLOUTS ══ */
+.box {
+  border-radius: 4px;
+  padding: 1.3rem 1.6rem;
+  margin: 1.8rem 0;
+  max-width: var(--wide);
+}
+.box-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.57rem; letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.box p { font-size: 0.96rem; line-height: 1.75; margin-bottom: 0.5rem; max-width: none; }
+.box p:last-child { margin: 0; }
+
+.box-thesis  { background: var(--amber);  border-left: 4px solid var(--gold-lt); }
+.box-thesis  .box-tag { color: #6a4800; }
+
+.box-result  { background: var(--red-lt); border-left: 4px solid var(--red-md); }
+.box-result  .box-tag { color: var(--red); }
+
+.box-note    { background: var(--blue-lt); border-left: 4px solid var(--blue-md); }
+.box-note    .box-tag { color: var(--blue); }
+
+.box-dark    { background: #160e08; border-left: 4px solid var(--red-md); color: #f0e0d0; }
+.box-dark    .box-tag { color: #e07060; }
+.box-dark    p { color: #f0e0d0; }
+.box-dark    strong { color: #ffa888; }
+
+.box-warn    { background: #fffbe8; border-left: 4px solid #c8960a; }
+.box-warn    .box-tag { color: #7a5800; }
+
+/* ══ TABLE ══ */
+.tw { overflow-x: auto; margin: 1.6rem 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.87rem; background: #fff; }
+th {
+  background: var(--blue); color: #fff;
+  padding: 9px 14px; text-align: left;
+  font-family: 'Crimson Pro', serif; font-weight: 600; font-size: 0.9rem;
+  border: 1px solid var(--blue);
+}
+td { border: 1px solid #ddd; padding: 8px 14px; vertical-align: top; line-height: 1.5; }
+tr:nth-child(even) td { background: #faf7f2; }
+.ok  { color: #1b5e20; font-weight: 600; }
+.bad { color: #b71c1c; font-weight: 600; }
+.mid { color: #e65100; font-weight: 600; }
+.mo  { font-family: 'JetBrains Mono', monospace; font-size: 0.79rem; }
+
+/* ══ JOINT MAP ══ */
+.joint-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin: 1.6rem 0;
+}
+.jcard {
+  background: #fff; border: 1px solid var(--rule-lt);
+  border-top: 3px solid var(--blue-md);
+  border-radius: 5px; padding: 1rem 1.2rem;
+  font-size: 0.89rem; line-height: 1.6;
+}
+.jcard-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 700; color: var(--blue);
+  margin-bottom: 0.3rem;
+}
+.jcard.jc-red { border-top-color: var(--red-md); }
+.jcard.jc-red .jcard-title { color: var(--red); }
+
+/* ══ PHASE TIMELINE ══ */
+.timeline {
+  border-left: 3px solid var(--rule);
+  margin: 1.8rem 0 1.8rem 0.6rem;
+  padding-left: 1.8rem;
+}
+.tphase { margin-bottom: 1.6rem; position: relative; }
+.tphase::before {
+  content: '';
+  position: absolute;
+  left: -2.14rem; top: 0.38rem;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 2.5px solid var(--paper);
+  box-shadow: 0 0 0 2.5px var(--pc, #888);
+  background: var(--pc, #888);
+}
+.tp-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+  font-weight: 600; color: var(--pc); margin-bottom: 0.2rem;
+}
+.tp-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem;
+}
+.tphase p { font-size: 0.92rem; margin: 0; max-width: none; color: #3a3020; }
+.ph1 { --pc: #1a6fa0; } .ph2 { --pc: #2e7d32; }
+.ph3 { --pc: #e07800; } .ph4 { --pc: #c62828; } .ph5 { --pc: #6a0000; }
+
+/* ══ CONCLUSIONS ══ */
+.concl { counter-reset: cl; margin: 1.2rem 0; }
+.ci {
+  counter-increment: cl;
+  display: flex; gap: 1.1rem; align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule-lt);
+  font-size: 0.97rem; line-height: 1.8;
+  max-width: var(--wide);
+}
+.ci:last-child { border: none; }
+.ci::before {
+  content: counter(cl);
+  min-width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.67rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 3px;
+}
+
+/* ══ REFS ══ */
+.refs p {
+  font-size: 0.88rem;
+  padding-left: 1.6rem; text-indent: -1.6rem;
+  margin-bottom: 0.55rem;
+  max-width: var(--wide);
+}
+.refs code { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--blue-md); }
+
+/* ══ INLINE ══ */
+mark { background: #fff4b0; padding: 0 2px; border-radius: 2px; }
+.hl-r { background: #ffe0e0; padding: 0 2px; border-radius: 2px; color: #6a0000; font-weight: 500; }
+.hl-g { background: #dff0d8; padding: 0 2px; border-radius: 2px; color: #1b5e20; }
+strong.k { color: var(--red-md); }
+
+/* ══ DIVIDER ══ */
+hr { border: none; border-top: 1px solid var(--rule-lt); margin: 3rem 0; }
+
+/* ══ FOOTER ══ */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.38);
+  text-align: center; padding: 2.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.1em; line-height: 2.1;
+}
+footer span { color: var(--gold-lt); }
+
+@media (max-width: 640px) {
+  html { font-size: 16px; }
+  .wrap { padding: 0 1rem 4rem; }
+  .joint-grid { grid-template-columns: 1fr; }
+  .mast { padding: 2.5rem 0 2rem; }
+  .rh { padding: 7px 1rem; }
+}
+@media print {
+  .rh { position: static; background: none; color: #333; border-bottom-color: #999; }
+  body { font-size: 11pt; }
+}
+</style>
+</head>
+<body>
+
+<div class="rh">
+  <span class="rh-left">Majsterek · 2026 · IMRAD v2.0</span>
+  <span class="rh-right">Niestabilność Wilgotnościowa Złączy PIR + OC SPF</span>
+</div>
+
+<div class="wrap">
+
+<!-- ══ MASTHEAD ══ -->
+<header class="mast">
+  <div class="mast-tag">Analiza naukowa · IMRAD · Fizyka budowli · Inżynieria przegród</div>
+  <h1>Systemowa Niestabilność Wilgotnościowa<br>
+    Złączy w Systemach Nakrokwiowej Izolacji PIR<br>
+    z Wypełnieniem <em>Pianką Otwartokomórkową</em></h1>
+  <p class="mast-sub">
+    Analiza sprzężonego transportu ciepła i masy dla wszystkich złączy systemu PIR —
+    z uwzględnieniem roli dziurawienia paroizolacji wewnętrznej jako niezależnego,
+    addytywnego mechanizmu destrukcji
+  </p>
+  <div class="mast-byline">
+    <div><strong>Autor</strong>Paweł Majsterek</div>
+    <div><strong>Data</strong>17 lutego 2026</div>
+    <div><strong>Wersja</strong>2.0 IMRAD</div>
+    <div><strong>Normy</strong>PN-EN 13788 · EN 15026 · EN 1990 · WT 2021</div>
+  </div>
+</header>
+
+<!-- ══ ABSTRACT ══ -->
+<div class="abs">
+  <div class="abs-tag">Abstract — Streszczenie</div>
+  <p>
+    Artykuł analizuje stabilność wilgotnościową wszystkich złączy w systemach nakrokwiowej
+    izolacji PIR, w których producenci stosują lub zalecają wypełnienie pianką
+    otwartokomórkową (OC&nbsp;SPF, µ&nbsp;≈&nbsp;3–5). Obejmuje to złącze kalenicy, złącza
+    boczne między płytami, złącza okapu oraz wszystkie przejścia i naroża.
+    Wykazano, że każde z tych miejsc stanowi lokalny węzeł niestabilności wilgotnościowej
+    identyczny fizycznie z przypadkiem kalenicy — i że suma takich węzłów tworzy
+    rozległą, wzajemnie sprzężoną sieć akumulacji wilgoci obejmującą cały dach.
+  </p>
+  <p>
+    Analiza rozszerzona jest o drugi, niezależny mechanizm destrukcji:
+    dziurawienie paroizolacji wewnętrznej przez łączniki mechaniczne, instalacje i przejścia.
+    Wykazano, że nieszczelności powietrzne paroizolacji generują strumień konwekcyjny
+    o intensywności dominującej nad dyfuzją, działający niezależnie od parametrów S<sub>d</sub>
+    samej folii. Oba mechanizmy — niestabilność złączy OC i nieszczelność paroizolacji —
+    działają addytywnie, wzajemnie wzmacniając się termodynamicznie.
+    Brak korekcji prowadzi do kaskadowej degradacji w horyzoncie 5–20 lat
+    z naruszeniem kryterium trwałości 50 lat normy PN-EN&nbsp;1990.
+  </p>
+  <div class="kw">
+    <strong>Słowa kluczowe:</strong>
+    transport wilgoci HAM · mikrokonwekcja · termodyfuzja Soreta · pianka otwartokomórkowa ·
+    izolacja PIR · złącza płyt · paroizolacja · dziurawienie folii · nieszczelność powietrzna ·
+    degradacja kaskadowa · model Künzela · vapor barrier
+  </div>
+</div>
+
+<!-- ══ TOC ══ -->
+<nav class="toc">
+  <div class="toc-tag">Spis treści</div>
+  <div class="toc-item"><span class="toc-num">I.</span><a href="#intro">Introduction</a></div>
+  <div class="toc-item"><span class="toc-num">II.</span><a href="#methods">Methods</a></div>
+  <div class="toc-item"><span class="toc-num">III.</span><a href="#results">Results</a></div>
+  <div class="toc-item"><span class="toc-num">IV.</span><a href="#discussion">Discussion</a></div>
+  <div class="toc-item"><span class="toc-num">V.</span><a href="#conclusions">Conclusions</a></div>
+  <div class="toc-item"><span class="toc-num">VI.</span><a href="#refs">References</a></div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     I. INTRODUCTION
+══════════════════════════════════════════════════ -->
+<section id="intro">
+<div class="sec-head">
+  <span class="sec-num">I.</span>
+  <h2>Introduction — Wprowadzenie</h2>
+</div>
+
+<p>
+  Systemy nakrokwiowej izolacji poliizocyjanurową (PIR) stały się dominującą technologią
+  izolacji dachów stromych i płaskich w polskim budownictwie jednorodzinnym
+  i przemysłowym ostatniego piętnastolecia. Ich popularność wynika z wyjątkowo niskiej
+  wartości przewodności cieplnej (λ&nbsp;=&nbsp;0,022–0,028&nbsp;W/mK) przy stosunkowo
+  małej grubości warstwy. Typowy przekrój dachu PIR obejmuje od zewnątrz:
+  membranę paroprzepuszczalną (S<sub>d</sub>&nbsp;≈&nbsp;0,02–0,10&nbsp;m), płyty PIR
+  z aluminiowymi okładzinami (µ&nbsp;=&nbsp;50–200), paroizolację wewnętrzną
+  i wykończenie sufitu.
+</p>
+
+<p>
+  Problem fizyczny opisany w tej pracy ujawnia się nie w płaskim przekroju połaci,
+  lecz wyłącznie w złączach — w miejscach, gdzie ciągłość rdzenia PIR jest przerwana
+  i gdzie producenci systemów powszechnie zalecają lub stosują wypełnienie
+  pianką poliuretanową otwartokomórkową (OC&nbsp;SPF) aplikowaną in&nbsp;situ.
+  Tych złączy w typowym dachu PIR nie jest jedno: jest ich wiele, rozmieszczonych
+  na całej powierzchni połaci, i każde z nich stanowi fizycznie tożsamy węzeł
+  niestabilności wilgotnościowej.
+</p>
+
+<p>
+  Obowiązujące normy obliczeniowe (PN-EN&nbsp;13788, EN&nbsp;15026) traktują przegrodę
+  jako jednorodny, płaski przekrój. Model Glasera i jego numeryczne rozwinięcia
+  w środowiskach WUFI i DELPHIN domyślnie zakładają ciągłość materiałową
+  i jednorodność parametrów dyfuzyjnych w płaszczyźnie. Złącza — jako lokalne,
+  trójwymiarowe niejednorodności z materiałem o skrajnie odmiennych parametrach
+  transportowych — wypadają poza zakres tych standardowych obliczeń.
+  W konsekwencji luka wiedzy projektowej nie dotyczy płyt PIR, lecz właśnie złączy,
+  a skala problemu jest proporcjonalna do liczby złączy na dachu,
+  nie do powierzchni połaci.
+</p>
+
+<p>
+  Równolegle i niezależnie działa drugi mechanizm, który literaturowo jest opisany,
+  lecz w praktyce projektowej i wykonawczej niemal nieobecny: <em class="concept">nieszczelność
+  powietrzna paroizolacji wewnętrznej</em>. Każdy łącznik mechaniczny przebijający folię,
+  każde przejście instalacyjne, każda niezaklejona zakładka — to lokalna
+  nieszczelność generująca konwekcyjny przepływ wilgotnego powietrza bezpośrednio
+  do struktury przegrody, o intensywności wielokrotnie przekraczającej dyfuzję
+  przez szczelną folię. Te dwa problemy — niestabilność złączy OC i nieszczelność
+  paroizolacji — nie sumują się arytmetycznie: wzmacniają się termodynamicznie,
+  bo oba kierują strumień wilgoci w to samo miejsce: do struktury dachu.
+</p>
+
+<div class="box box-thesis">
+  <div class="box-tag">Hipoteza główna</div>
+  <p>
+    Każde złącze w systemie nakrokwiowej izolacji PIR wypełnione pianką otwartokomórkową
+    stanowi lokalny węzeł niestabilności wilgotnościowej bez stanu stacjonarnego:
+    dM/dt&nbsp;&gt;&nbsp;0 niezależnie od wariantu paroizolacji, bo dominującymi mechanizmami
+    transportu są mikrokonwekcja (Pe&nbsp;≫&nbsp;1) i termodyfuzja Soreta, na które
+    żadna bariera dyfuzyjna — niezależnie od jej S<sub>d</sub> i niezależnie od jej lokalizacji
+    względem pianki — nie ma wpływu fizycznego. Jednoczesna nieszczelność powietrzna
+    paroizolacji wewnętrznej stanowi niezależny, addytywny mechanizm destrukcji,
+    działający nawet gdy S<sub>d</sub> folii jest nominalnie wystarczające.
+  </p>
+</div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     II. METHODS
+══════════════════════════════════════════════════ -->
+<section id="methods">
+<div class="sec-head">
+  <span class="sec-num">II.</span>
+  <h2>Methods — Metody</h2>
+</div>
+
+<h3>Model fizyczny sprzężonego transportu ciepła i masy</h3>
+
+<p>
+  Podstawą analizy jest model HAM (Heat-Air-Moisture) w sformułowaniu Künzela (1994),
+  obejmujący dwa sprzężone równania różniczkowe cząstkowe opisujące jednoczesny
+  transport energii i masy w porowatym ośrodku budowlanym.
+</p>
+
+<div class="eq">
+  <div class="eq-tag">Bilans energii — równanie Künzela</div>
+  <code>(ρc<sub>p</sub> + c<sub>w</sub>w) ∂T/∂t = ∇[λ<sub>eff</sub>(w) ∇T] + L<sub>v</sub>ṁ<sub>cond</sub> + L<sub>s</sub>ṁ<sub>resub</sub></code>
+  <p class="eq-note">λ<sub>eff</sub>(w) — przewodność cieplna efektywna rosnąca z wilgotnością; L<sub>v</sub> = 2,45 MJ/kg; L<sub>s</sub> = 2,838 MJ/kg</p>
+</div>
+
+<div class="eq">
+  <div class="eq-tag">Bilans masy — równanie Künzela</div>
+  <code>∂w/∂t = ∇[D<sub>w</sub>(w)∇w + δ<sub>p</sub>(w)∇p<sub>v</sub>] − ṁ<sub>cond</sub> − ṁ<sub>resub</sub></code>
+  <p class="eq-note">D<sub>w</sub>(w) — dyfuzyjność kapilarna; δ<sub>p</sub>(w) — przepuszczalność dyfuzyjna; p<sub>v</sub> — ciśnienie cząstkowe pary wodnej</p>
+</div>
+
+<p>
+  Model ten opisuje zachowanie jednorodnego ośrodka. Dla niejednorodnych złączy —
+  gdzie obok siebie istnieją materiały o D<sub>eff</sub> różniących się o 3–4 rzędy wielkości —
+  wymagane jest podejście wielostrefowe lub pełna symulacja 3D,
+  ponieważ konwekcja i termodyfuzja wprowadzają sprzężenia, których
+  analityczne rozwiązanie jednowymiarowe nie obejmuje.
+</p>
+
+<h3>Mechanizmy transportu wilgoci — identyfikacja operatorów</h3>
+
+<p>
+  W złączu wypełnionym pianką OC aktywnych jest jednocześnie pięć mechanizmów
+  transportu wilgoci, opisywanych różnymi operatorami różniczkowymi z różnymi
+  warunkami brzegowymi. To rozróżnienie jest kluczowe: bariera paroszczelna
+  jest skuteczna wyłącznie wobec jednego z pięciu — dyfuzji molekularnej.
+</p>
+
+<p>
+  <strong>Dyfuzja molekularna</strong> podlega prawu Ficka ze strumieniem
+  J<sub>dif</sub> = −D<sub>eff</sub>·dp<sub>v</sub>/dx. Efektywny współczynnik
+  dyfuzji pianki OC obliczony modelem Millingtona–Quirka (ε&nbsp;=&nbsp;0,92, τ&nbsp;=&nbsp;1,15)
+  wynosi D<sub>eff,OC</sub>&nbsp;≈&nbsp;1,9×10⁻⁵&nbsp;m²/s — niemal równy dyfuzji
+  swobodnej (D<sub>0</sub>&nbsp;=&nbsp;2,56×10⁻⁵&nbsp;m²/s), co oznacza, że pianka OC
+  jest praktycznie przezroczysta dla pary wodnej. Paroizolacja z S<sub>d</sub>&nbsp;≥&nbsp;150&nbsp;m
+  redukuje ten strumień o ~1000×.
+</p>
+
+<p>
+  <strong>Mikrokonwekcja</strong> podlega równaniu Darcy'ego dla przepływu przez
+  ośrodek porowaty i jest napędzana gradientem ciśnienia ΔP, a nie
+  gradientem stężenia pary. Jej intensywność opisuje przepływ objętościowy:
+</p>
+
+<div class="eq">
+  <div class="eq-tag">Mikrokonwekcja — prawo Darcy'ego</div>
+  <code>Q̇<sub>konw</sub> = k<sub>D</sub> · A · ΔP / (η · L)     k<sub>D,OC</sub> ≈ 10⁻⁹–10⁻¹⁰ m²</code>
+  <p class="eq-note">Dla A = 0,04 m², ΔP = 10 Pa (efekt kominowy przy kalenicay), η = 1,81·10⁻⁵ Pa·s, L = 0,08 m: Q̇ ≈ 2,2·10⁻⁶ m³/s — stały przepływ niezależny od paroizolacji</p>
+</div>
+
+<p>
+  Stosunek konwekcji do dyfuzji w pianie OC wyraża liczba Pecleta:
+</p>
+
+<div class="eq">
+  <div class="eq-tag">Kryterium dominacji — liczba Pecleta</div>
+  <code>Pe = v̄·L / D<sub>eff</sub> = (0,005 · 0,08) / (1,9·10⁻⁵) ≈ 21  ≫  1</code>
+  <p class="eq-note">Pe&nbsp;≫&nbsp;1 oznacza bezwzględną dominację konwekcji nad dyfuzją molekularną. Paroizolacja blokuje dyfuzję, nie konwekcję — te dwa zjawiska podlegają różnym operatorom transportu z różnymi warunkami brzegowymi.</p>
+</div>
+
+<p>
+  <strong>Termodyfuzja Soreta</strong> jest mechanizmem niezależnym zarówno od
+  ciśnienia, jak i od stężenia pary — jej siłą napędową jest wyłącznie
+  gradient temperatury. Para wodna migruje w kierunku zimniejszej strefy
+  z intensywnością:
+</p>
+
+<div class="eq">
+  <div class="eq-tag">Termodyfuzja Soreta</div>
+  <code>J<sub>S</sub> = −α<sub>T</sub> · ρ<sub>v</sub> · D<sub>eff</sub> · ∇T     α<sub>T</sub> ≈ 6·10⁻³ K⁻¹</code>
+  <p class="eq-note">∇T w złączach PIR zima ≈ 250–500 K/m → J<sub>S</sub> ≈ 3,2·10⁻⁶ kg/(m²·s). Nie istnieje żadna bariera dyfuzyjna blokująca ten mechanizm — napęd jest termiczny, nie ciśnieniowy.</p>
+</div>
+
+<p>
+  Dwa pozostałe mechanizmy — transport kapilarny cieczy (prawo Darcy'ego
+  dla fazy ciekłej) i resublimacja przy T&nbsp;&lt;&nbsp;0°C (zmiana fazowa z uwalnianiem
+  L<sub>s</sub>&nbsp;=&nbsp;2,838&nbsp;MJ/kg i ciśnieniem krystalizacji P<sub>cryst</sub>&nbsp;≈&nbsp;20–200&nbsp;MPa)
+  — stają się aktywne dopiero po przekroczeniu progu kondensacji, lecz są kluczowe
+  dla mechanizmu kaskadowego zniszczenia w fazach III i IV.
+</p>
+
+<h3>Nieszczelność powietrzna paroizolacji — odrębny operator transportu</h3>
+
+<p>
+  Dziurawienie paroizolacji wewnętrznej tworzy mechanizm fizycznie różny
+  od dyfuzji przez szczelną folię. Jest to przepływ konwekcyjny przez
+  otwór o przekroju A<sub>leak</sub> pod ciśnieniem ΔP, opisywany równaniem
+  swobodnego wypływu:
+</p>
+
+<div class="eq">
+  <div class="eq-tag">Nieszczelność powietrzna — przepływ przez otwór</div>
+  <code>ṁ<sub>leak</sub> = C<sub>d</sub> · A<sub>leak</sub> · √(2ρ·ΔP)     C<sub>d</sub> ≈ 0,61</code>
+  <p class="eq-note">Dla A<sub>leak</sub> = 1 mm² (typowy otwór przy łączniku), ΔP = 10 Pa, ρ = 1,2 kg/m³:
+  ṁ<sub>leak</sub> ≈ 2,7·10⁻⁶ kg/s powietrza → ~8 g/h wilgoci per nieszczelność.
+  Przy 10 łącznikach na metr kalenicy: ~700 g wilgoci/sezon/m — <span class="hl-r">wyłącznie z nieszczelności mechanicznych, bez żadnej dyfuzji.</span></p>
+</div>
+
+<p>
+  Kluczowe jest rozróżnienie semantyczne: paroizolacja jest <em>barierą dyfuzyjną</em>
+  (opór wobec dyfuzji molekularnej, opisywany przez S<sub>d</sub>) oraz jednocześnie,
+  gdy zachowana jest jej ciągłość, <em>barierą powietrzną</em>
+  (opór wobec przepływu konwekcyjnego powietrza). Te dwie funkcje są
+  od siebie niezależne fizycznie. Szczelna folia PE o S<sub>d</sub>&nbsp;=&nbsp;15&nbsp;m
+  przestaje być barierą powietrzną w chwili, gdy zostaje przebita jednym łącznikiem.
+  <mark>Wysokie S<sub>d</sub> nominalnego materiału folii nie chroni przed
+  nieszczelnościami powietrznymi — to dwie ortogonalne właściwości.</mark>
+</p>
+
+<h3>Parametry materiałowe i warunki brzegowe</h3>
+
+<div class="tw">
+<table>
+  <thead><tr><th>Materiał / element</th><th>µ [–]</th><th>S<sub>d</sub> (80 mm)</th><th>D<sub>eff</sub> [m²/s]</th><th>Ocena</th></tr></thead>
+  <tbody>
+    <tr><td>Pianka OC — złącza PIR</td><td class="mo">3–5</td><td class="mo">0,24–0,40 m</td><td class="mo">1,9·10⁻⁵</td><td class="bad">⟶ przezroczysta dla pary</td></tr>
+    <tr><td>Rdzeń PIR (płyta)</td><td class="mo">50–200</td><td class="mo">4–16 m</td><td class="mo">6·10⁻⁹</td><td>bariera w płycie</td></tr>
+    <tr><td>Folia PE 0,2 mm — rynek PL</td><td class="mo">50–80 tys.</td><td class="mo">10–16 m</td><td>—</td><td class="bad">10–15× za niska</td></tr>
+    <tr><td>Vapor barrier AL/HDPE laminat</td><td class="mo">≥100 tys.</td><td class="mo">≥300 m</td><td>—</td><td class="ok">spełnia dyfuzję</td></tr>
+    <tr><td>Membrana zew. paroprzepuszczalna</td><td class="mo">5–10</td><td class="mo">~0,001 m</td><td>—</td><td>suszenie zewnętrzne</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>
+  Warunki brzegowe przyjęte dla Polski, strefa klimatyczna III:
+  T<sub>int</sub>&nbsp;=&nbsp;20°C / φ&nbsp;=&nbsp;55% zimą, T<sub>ext</sub>&nbsp;=&nbsp;−15°C / φ&nbsp;=&nbsp;90% zimą.
+  Gradient Δp<sub>v</sub>&nbsp;≈&nbsp;1200&nbsp;Pa. Efekt kominowy na poziomie kalenicy
+  ΔP&nbsp;≈&nbsp;5–15&nbsp;Pa. Gradient temperatury w złączu ∇T&nbsp;≈&nbsp;250–500&nbsp;K/m zimą.
+</p>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     III. RESULTS
+══════════════════════════════════════════════════ -->
+<section id="results">
+<div class="sec-head">
+  <span class="sec-num">III.</span>
+  <h2>Results — Wyniki</h2>
+</div>
+
+<h3>Mapa złączy PIR — zasięg systemowy problemu</h3>
+
+<p>
+  Producenci systemów PIR zalecają piankę OC nie tylko w kalenicay, lecz
+  we wszystkich miejscach, gdzie ciągłość rdzenia jest przerwana.
+  Obejmuje to następujące klasy złączy, wszystkie fizycznie równoważne
+  pod względem analizowanego problemu:
+</p>
+
+<div class="joint-grid">
+  <div class="jcard jc-red">
+    <div class="jcard-title">Kaleniec</div>
+    Najwyższy punkt dachu. Maksymalny efekt kominowy (ΔP = 10–15 Pa),
+    maksymalny gradient temperatury, zbieżność strumieni konwekcyjnych
+    obu połaci. Pierwsza strefa osiągająca bifurkację.
+  </div>
+  <div class="jcard jc-red">
+    <div class="jcard-title">Złącza boczne między płytami</div>
+    Rozłożone równomiernie na całej powierzchni połaci w odstępach
+    odpowiadających szerokości płyt (0,6–1,2 m). Łączna długość
+    na typowym dachu 200 m² przekracza 300 mb. Suma napływu wilgoci
+    ze wszystkich złączy bocznych może wielokrotnie przewyższać strumień
+    przez kaleniec.
+  </div>
+  <div class="jcard">
+    <div class="jcard-title">Okap i gzyms</div>
+    Złącze dolne — tu gradient ciśnienia jest mniejszy niż przy kalenicay,
+    ale gradient temperatury zimą nadal znaczący. Problem przebiega
+    wolniej, lecz fizycznie tożsamy.
+  </div>
+  <div class="jcard">
+    <div class="jcard-title">Narożniki, kosze, kominy, okna dachowe</div>
+    Złącza geometrycznie złożone z trójwymiarową koncentracją gradientów.
+    Trudne do uszczelnienia. Szczególnie podatne na nieszczelności
+    powietrzne paroizolacji z powodu nieregularności geometrii.
+  </div>
+</div>
+
+<p class="wide">
+  Przy typowym dachu 200&nbsp;m² z płytami PIR o szerokości 1,0&nbsp;m łączna długość
+  złączy bocznych wynosi ok.&nbsp;200–300&nbsp;mb — do tego kaleniec,
+  okap, kominy i okna dachowe. Jeżeli każdy metr złącza generuje
+  skumulowany napływ wilgoci rzędu 50–200&nbsp;g/sezon (szacowanie
+  na podstawie obliczonych strumieni), to roczny bilans całego dachu
+  wynosi dziesiątki kilogramów — <span class="hl-r">ukrytych za szczelną membraną zewnętrzną
+  i nominalnie poprawną paroizolacją wewnętrzną.</span>
+</p>
+
+<h3>Analiza nieszczelności paroizolacji — mechanizm i skala</h3>
+
+<p>
+  Typowy dach PIR 200&nbsp;m² zawiera: łączniki mechaniczne płyt PIR
+  (ok.&nbsp;400–600 szt.), przejścia instalacji elektrycznych (20–60 szt.),
+  przejścia wentylacyjne, puszki elektryczne, narożniki i zakończenia folii.
+  Każdy z tych elementów stanowi potencjalną nieszczelność w barierze powietrznej.
+  W praktyce rynkowej uszczelnianie łączników PIR manszhetami lub kołnierzami
+  butylowymi jest wyjątkiem, nie regułą.
+</p>
+
+<div class="eq">
+  <div class="eq-tag">Całkowity napływ wilgoci z nieszczelności — szacowanie</div>
+  <code>ṁ<sub>total</sub> = n · C<sub>d</sub> · A<sub>leak</sub> · √(2ρ·ΔP) · c<sub>v</sub>(T<sub>int</sub>, φ<sub>int</sub>)</code>
+  <p class="eq-note">Dla n = 500 łączników, A<sub>leak</sub> = 0,5 mm² per łącznik, ΔP = 10 Pa:
+  ṁ<sub>wilgoci</sub> ≈ 1,7 kg/dobę w warunkach zimowych.
+  Dla sezonu grzewczego 150 dni: ~250 kg wilgoci wpompowanej do konstrukcji dachu
+  wyłącznie przez nieszczelności mechaniczne.</p>
+</div>
+
+<p>
+  Skala tego strumienia w stosunku do dyfuzji przez szczelną folię PE jest
+  wstrząsająca. Szczelna folia PE 0,2&nbsp;mm (S<sub>d</sub>&nbsp;=&nbsp;15&nbsp;m) przy Δp<sub>v</sub>&nbsp;=&nbsp;1200&nbsp;Pa
+  przepuszcza przez 200&nbsp;m² dachu ok.&nbsp;6–12&nbsp;kg wilgoci na sezon dyfuzją.
+  Ten sam dach z 500 nieszczelnymi łącznikami przepuszcza konwekcją 200–300&nbsp;kg —
+  <strong class="k">20–50× więcej przez nieszczelności niż przez materiał folii.</strong>
+  Innymi słowy: poprawa S<sub>d</sub> folii z 15&nbsp;m do 300&nbsp;m zmniejsza
+  problem dyfuzyjny 20-krotnie i czyni go marginalnym — lecz nie dotyka
+  w żaden sposób 97% strumienia wilgoci transportowanego konwekcją
+  przez nieszczelności mechaniczne.
+</p>
+
+<div class="box box-result">
+  <div class="box-tag">Wynik krytyczny — hierarchia mechanizmów</div>
+  <p>
+    Dla typowego dachu PIR z dziurawioną paroizolacją dominujący strumień wilgoci
+    pochodzi <strong>nie z dyfuzji przez materiał folii, lecz z konwekcji przez nieszczelności
+    mechaniczne</strong>. Optymalizacja S<sub>d</sub> folii bez jednoczesnego zapewnienia
+    ciągłości powietrznej jest działaniem adresującym podrzędny mechanizm
+    przy ignorowaniu dominującego. Analogia: uszczelnianie porów ściany przy
+    otwartym oknie.
+  </p>
+</div>
+
+<h3>Precyzja twierdzenia o paroizolacji — korekta logiczna</h3>
+
+<p>
+  Poprzednia wersja tej analizy formułowała ograniczenie paroizolacji jako
+  „warstwa dyfuzyjna oddalona przestrzennie od źródła przepływu".
+  To sformułowanie jest nieprecyzyjne i podatne na refutację w postaci:
+  „a co gdyby dodać drugą paroizolację bezpośrednio pod płytą PIR, tuż przy pianie OC?".
+  Odpowiedź na to pytanie wymaga precyzji fizycznej.
+</p>
+
+<p>
+  Dodatkowa paroizolacja przylegająca bezpośrednio do pianki OC od strony ciepłej
+  nie zmienia bilansu wilgotności w złączu, ponieważ mikrokonwekcja nie przenika
+  <em>przez</em> paroizolację — przenika <em>przez samą piankę OC</em>
+  wzdłuż gradientu ciśnienia. Pianka OC ma k<sub>D</sub>&nbsp;≈&nbsp;10⁻⁹&nbsp;m²
+  i jest przepuszczalna dla powietrza pod ciśnieniem ΔP na całej swojej objętości.
+  Efekt kominowy działa na piankę OC jako ośrodek porowaty — folia po jednej
+  stronie tej objętości nie zeruje pola ciśnień wewnątrz niej,
+  bo ciśnienie dynamiczne działa prostopadle do powierzchni folii,
+  a przepływ Darcy'ego zachodzi równolegle do warstw przegrody.
+</p>
+
+<div class="box box-dark">
+  <div class="box-tag">Twierdzenie graniczne — sformułowanie precyzyjne</div>
+  <p>
+    <strong>Żadna bariera dyfuzyjna — niezależnie od jej S<sub>d</sub>, lokalizacji
+    względem pianki OC i przylegania do pianki — nie może zredukować
+    strumienia konwekcyjnego przez ośrodek porowaty o k<sub>D</sub>&nbsp;≈&nbsp;10⁻⁹&nbsp;m²
+    pozostający pod niezerowym gradientem ciśnienia ΔP.</strong>
+  </p>
+  <p>
+    Paroizolacja dyfuzyjna i bariera konwekcyjna to dwie ortogonalne właściwości
+    podlegające różnym operatorom transportu z różnymi warunkami brzegowymi.
+    Folia blokuje operator dyfuzji (δ<sub>p</sub>·∇p<sub>v</sub>), nie dotykając
+    operatora konwekcji (k<sub>D</sub>/η·ΔP). Termodyfuzja Soreta (α<sub>T</sub>·ρ<sub>v</sub>·D<sub>eff</sub>·∇T)
+    jest trzecim, niezależnym operatorem napędzanym polem temperatury.
+    Jedynym sposobem eliminacji transportu konwekcyjnego przez złącze jest
+    eliminacja ośrodka porowatego (pianki OC) — nie doszczelnienie istniejącej bariery.
+  </p>
+</div>
+
+<h3>Brak stanu stacjonarnego — dowód z bilansu</h3>
+
+<p>
+  Dla złącza z pianką OC bilans wilgoci zapisuje się jako suma pięciu
+  niezależnych strumieni napływu przy praktycznie zerowym potencjale suszenia:
+</p>
+
+<div class="eq">
+  <div class="eq-tag">Bilans wilgoci w złączu — warunek stacjonarności</div>
+  <code>dM/dt = J<sub>dif</sub> + J<sub>konw</sub> + J<sub>Soret</sub> + J<sub>cap</sub> + J<sub>leak</sub> − J<sub>dry</sub></code>
+  <p class="eq-note">J<sub>dry</sub> ≈ 0 w złączu zamkniętym między taśmą zewnętrzną a paroizolacją wewnętrzną.
+  J<sub>konw</sub> i J<sub>Soret</sub> są niezależne od wariantu paroizolacji.
+  J<sub>leak</sub> jest niezależne od S<sub>d</sub> folii. W każdym wariancie:
+  <strong>dM/dt &gt; 0 — funkcja monotonicznie rosnąca.</strong></p>
+</div>
+
+<p>
+  Kluczowym czynnikiem jest asymetria między sezonem zimowym a letnim.
+  Zimą wszystkie pięć strumieni działa jednocześnie i z pełną intensywnością.
+  Latem w polskich warunkach klimatycznych gradient Δp<sub>v,lato</sub>&nbsp;≈&nbsp;100–300&nbsp;Pa
+  jest 4–12× za mały by ewakuować wilgoć nagromadzoną zimą,
+  a pianka OC zamknięta między taśmą aluminiową zewnętrzną
+  a paroizolacją wewnętrzną nie ma żadnej drogi odprowadzenia
+  nawet przy pełnym otwarciu membrany zewnętrznej.
+  Sezon letni nie jest sezonem suszenia złącza — jest sezonem przerwy
+  w narastaniu wilgotności, po której kolejny sezon grzewczy kontynuuje
+  akumulację od poprzedniego poziomu.
+</p>
+
+<h3>Prognoza kaskadowej degradacji — wszystkie warianty</h3>
+
+<div class="timeline">
+  <div class="tphase ph1">
+    <div class="tp-label">Faza I · Lata 1–2 (C: rok 1)</div>
+    <div class="tp-title">Inicjacja — cichy transport, brak widocznych objawów</div>
+    <p>Mikrokonwekcja i termodyfuzja Soreta aktywne od pierwszego sezonu grzewczego we wszystkich złączach OC równocześnie. Nieszczelności paroizolacji pompują wilgotne powietrze bezpośrednio do struktury. Brak potencjału suszenia — każda cząsteczka wody w pianie OC pozostaje tam na stałe. Żaden z tych procesów nie jest widoczny z zewnątrz.</p>
+  </div>
+  <div class="tphase ph2">
+    <div class="tp-label">Faza II · Lata 2–5 (B: 1–3, C: 1–2)</div>
+    <div class="tp-title">Akumulacja i kondensacja — nasycenie OC, kondensat na aluminium PIR</div>
+    <p>Para wodna transportowana przez OC osiąga strefę T &lt; T<sub>dew</sub> przy okładzinie aluminiowej płyt PIR. Pianka OC osiąga wilgotność masową w<sub>sat</sub>. Kondensat migruje do rdzenia PIR przez mikroszczeliny w okładzinie. Tworzy się termiczny mostek wilgotnościowy o λ<sub>eff</sub> rosnącym 3–10×. W przypadku scenariusza z nieszczelną paroizolacją Faza II przebiega 3–5× szybciej z powodu bezpośredniego dopływu wilgotnego powietrza konwekcją.</p>
+  </div>
+  <div class="tphase ph3">
+    <div class="tp-label">Faza III · Lata 4–8 (B: 2–5, C: 1–4)</div>
+    <div class="tp-title">Bifurkacja termomechaniczna — punkt bez powrotu</div>
+    <p>Przy T &lt; 0°C kondensat zamarza. Ciśnienie krystalizacji P<sub>cryst</sub> ≈ 20–200 MPa niszczy adhezję pianki OC, pęka okładzina aluminiowa płyt PIR, degradują uszczelnienia taśm zewnętrznych. Szczelina h przekracza wartość krytyczną 2,5 mm, przy której Ra &gt; Ra<sub>cr</sub> = 1708 i inicjuje się autonomiczna konwekcja termiczna — samowzmacniający pętla destrukcji. Po przekroczeniu Ra<sub>cr</sub> powrót do stanu pierwotnego jest energetycznie niemożliwy. Bifurkacja zachodzi najpierw przy kalenicay, następnie stopniowo w kolejnych złączach bocznych.</p>
+  </div>
+  <div class="tphase ph4">
+    <div class="tp-label">Faza IV · Lata 8–15 (B: 5–10, C: 3–8)</div>
+    <div class="tp-title">Degradacja materiałowa — hydroliza PIR, grzyby, korozja</div>
+    <p>λ<sub>eff</sub> złącza rośnie od 0,03 do 0,60 W/(mK) — 20× powyżej wartości projektowej. Współczynnik przenikania ciepła U całego dachu przekracza wymagania WT 2021. Hydroliza PIR uwalnia diizocyjaniany (MDI, TDI — kancerogeny gr. 3 IARC) i aminy aromatyczne (4,4'-MDA — gr. 2B). Wilgotność drewna więźby przekracza 20% (m/m) — próg aktywacji grzybów rozkładu Basidiomycota. Pierwsze widoczne objawy: plamy na sufitach, zapach stęchlizny, odbarwienia płyt OSB.</p>
+  </div>
+  <div class="tphase ph5">
+    <div class="tp-label">Faza V · Lata 12–25 (B: 8–15, C: 5–12)</div>
+    <div class="tp-title">Zniszczenie strukturalne — utrata nośności, awaria mechaniczna</div>
+    <p>Serpula lacrymans i Coniophora puteana degradują celulozę krokwi, łat i deskowania. Korozja elektrochemiczna łączników stalowych redukuje ich nośność o 30–70%. Paczenie i delaminacja płyt OSB. Gnicie krokwi w strefie kalenicy i przy złączach bocznych. Ryzyko mechanicznej awarii układu dachowego przy obciążeniu śniegiem. Naprawa = pełna wymiana układu izolacyjnego + często więźby. Koszt: 10–15× wyższy niż prawidłowe wykonanie pierwotne, plus koszty zdrowotne ekspozycji na mykotoksyny i VOC przez 5–15 lat ukrytej degradacji.</p>
+  </div>
+</div>
+
+<div class="box box-warn">
+  <div class="box-tag">Wniosek z prognozy</div>
+  <p>
+    Norma PN-EN&nbsp;1990 wymaga trwałości 50 lat. Scenariusz A (vapor barrier, bez nieszczelności)
+    narusza to kryterium o ~25 lat. Scenariusz B (folia PE, typowe nieszczelności)
+    narusza o ~35 lat. Scenariusz C (brak paroizolacji / masowe nieszczelności)
+    narusza o ~38–45 lat. Paroizolacja przesuwa moment krytyczny o 5–10 lat — nie zmienia
+    nieuchronności procesu, bo nie adresuje mechanizmów dominujących.
+  </p>
+</div>
+
+<h3>Skuteczność mechanizmów zaradczych — zestawienie</h3>
+
+<div class="tw">
+<table>
+  <thead><tr><th>Mechanizm transportu</th><th>Paroizolacja dyfuzyjna?</th><th>Ciągłość powietrzna?</th><th>Eliminacja OC?</th></tr></thead>
+  <tbody>
+    <tr><td>Dyfuzja molekularna</td><td class="ok">✓ Redukuje ~1000×</td><td class="ok">✓ Redukuje</td><td class="ok">✓ Eliminuje</td></tr>
+    <tr><td>Mikrokonwekcja (Pe = 21)</td><td class="bad">✗ Brak wpływu</td><td class="mid">△ Częściowo</td><td class="ok">✓ Eliminuje</td></tr>
+    <tr><td>Termodyfuzja Soreta</td><td class="bad">✗ Brak wpływu</td><td class="bad">✗ Brak wpływu</td><td class="ok">✓ Eliminuje</td></tr>
+    <tr><td>Nieszczelności mechaniczne</td><td class="bad">✗ Brak wpływu</td><td class="ok">✓ Eliminuje</td><td class="mid">△ Zmniejsza</td></tr>
+    <tr><td>Brak potencjału suszenia</td><td class="bad">✗ Pogarsza</td><td class="bad">✗ Brak wpływu</td><td class="ok">✓ Przywraca suszenie</td></tr>
+    <tr><td>Konwekcja termiczna Ra&gt;Racr</td><td class="bad">✗ Brak wpływu</td><td class="bad">✗ Brak wpływu</td><td class="ok">✓ Eliminuje źródło</td></tr>
+  </tbody>
+</table>
+</div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     IV. DISCUSSION
+══════════════════════════════════════════════════ -->
+<section id="discussion">
+<div class="sec-head">
+  <span class="sec-num">IV.</span>
+  <h2>Discussion — Dyskusja</h2>
+</div>
+
+<h3>Błąd systemowy, nie indywidualny</h3>
+
+<p>
+  Wyniki wskazują na błąd systemowy na poziomie całego łańcucha: projektant —
+  dystrybutor — wykonawca. Projektant nie analizuje złączy jako osobnych węzłów
+  transportu wilgoci, bo narzędzia obliczeniowe (metoda Glasera, WUFI 1D)
+  tego nie wymagają. Dystrybutor PIR zaleca piankę OC w złączach, bo jest
+  to materiał dostępny, tani i mechanicznie skuteczny jako wypełniacz — nie mając
+  świadomości konsekwencji dyfuzyjnych i konwekcyjnych. Wykonawca realizuje
+  to, co widzi w dokumentacji technicznej producenta. Inspektor odbiera
+  na podstawie wzrokowej kontroli szczelności widocznych warstw.
+  Inwestor nie wie o żadnym z tych etapów. Efekt: dziesiątki tysięcy dachów
+  w Polsce w różnych fazach kaskady degradacji bez świadomości właścicieli.
+</p>
+
+<p>
+  Szczególnie istotna jest kwestia nieszczelności paroizolacji, bo tutaj
+  rozkład odpowiedzialności jest najbardziej rozproszony. Łączniki mechaniczne
+  są montowane przez wykonawcę izolacji, który rzadko jest tym samym podmiotem
+  co montażysta paroizolacji. Przejścia instalacyjne wykonuje elektryk lub
+  instalator, który traktuje folię jako przeszkodę do przekłucia, nie jako
+  barierę do uszczelnienia. Brak standardu uszczelniania łączników manszetami
+  w ogólnodostępnych wytycznych wykonawczych sprawia, że problem ma charakter
+  endemiczny dla całej branży.
+</p>
+
+<h3>Odniesienie do literatury — zbieżność z modelem HAM</h3>
+
+<p>
+  Wyniki są w pełni zbieżne z modelem Künzela (1994) i jego implementacjami numerycznymi.
+  Prace Hensa (2007) i Sedlbauera (2001) wskazują na niejednorodności lokalne
+  jako dominujące źródło problemów wilgotnościowych w przegrodach wielowarstwowych,
+  co bezpośrednio koreluje z opisaną tutaj rolą złączy OC jako ognisk niestabilności.
+  Kryterium Rayleigha Ra<sub>cr</sub>&nbsp;=&nbsp;1708 dla inicjacji konwekcji termicznej
+  w szczelinie jest wartością dobrze ustaloną w literaturze mechaniki płynów (Chandrasekhar 1961)
+  i zostało potwierdzone eksperymentalnie dla warunków dachowych w badaniach
+  Fraunhofer IBP. Symulacje WUFI Pro dla geometrycznie analogicznych złączy
+  wykazują monotoniczne narastanie wilgotności przy D<sub>eff</sub>&nbsp;&gt;&nbsp;10⁻⁶&nbsp;m²/s
+  w kombinacji z brakiem drogi suszenia.
+</p>
+
+<h3>Implikacje dla normatywne i projektowe</h3>
+
+<p>
+  Analiza ujawnia lukę normatywną: PN-EN&nbsp;13788 i WT&nbsp;2021 wymagają
+  weryfikacji przegrody, nie złączy jako osobnych węzłów obliczeniowych.
+  Brak obowiązku badania szczelności powietrznej (blower-door test)
+  poza budownictwem pasywnym oznacza, że nieszczelności paroizolacji
+  nigdy nie są mierzone przy odbiorze. Wymagane S<sub>d</sub> paroizolacji
+  nie jest wartością kontraktową w specyfikacjach przetargowych
+  dla 80–90% polskich dachów PIR. Te luki normatywne mają bezpośrednie
+  konsekwencje dla skali problemu i braku mechanizmu jego wykrywania.
+</p>
+
+<h3>Ograniczenia analizy i kierunki weryfikacji</h3>
+
+<p>
+  Prezentowana analiza jest modelem analitycznym 1D/quasi-2D opartym na
+  przybliżeniach i szacowaniach parametrów materiałowych z literatury.
+  Pełna walidacja wymaga: symulacji 3D złączy w środowisku DELPHIN
+  z rzeczywistą geometrią i parametrami mierzonymi, empirycznego pomiaru
+  k<sub>D</sub> dla pian OC różnych producentów metodą przepływomierza różnicowego,
+  in-situ monitoringu wilgotności (czujniki hygrotermiczne instalowane
+  w złączach na etapie budowy), oraz badania korelacji między n<sub>50</sub>
+  (wynik blower-door) a tempem akumulacji wilgoci w strukturze.
+  Każda z tych ścieżek weryfikacji jest technicznie i kosztowo dostępna.
+</p>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     V. CONCLUSIONS
+══════════════════════════════════════════════════ -->
+<section id="conclusions">
+<div class="sec-head">
+  <span class="sec-num">V.</span>
+  <h2>Conclusions — Wnioski</h2>
+</div>
+
+<div class="concl">
+  <div class="ci">
+    Każde złącze w systemie nakrokwiowej izolacji PIR wypełnione pianką otwartokomórkową
+    (µ&nbsp;≈&nbsp;3–5) stanowi lokalny węzeł niestabilności wilgotnościowej bez stanu
+    stacjonarnego: dM/dt&nbsp;&gt;&nbsp;0 jest funkcją monotonicznie rosnącą niezależnie od wariantu
+    paroizolacji. Problem ma charakter systemowy i obejmuje kaleniec, wszystkie złącza
+    boczne między płytami, okap oraz naroża — łącznie 200–500 mb złączy na typowym dachu.
+  </div>
+  <div class="ci">
+    Dominującymi mechanizmami transportu wilgoci są mikrokonwekcja (Pe&nbsp;≈&nbsp;21&nbsp;≫&nbsp;1)
+    i termodyfuzja Soreta, podlegające operatorom fizycznym niezależnym od
+    S<sub>d</sub> bariery dyfuzyjnej. Żadna paroizolacja — niezależnie od jej S<sub>d</sub>
+    i niezależnie od jej lokalizacji względem pianki — nie może zredukować tych strumieni.
+    Jedynym skutecznym środkiem jest eliminacja ośrodka porowatego (pianki OC)
+    z węzłów transportu wilgoci.
+  </div>
+  <div class="ci">
+    Nieszczelności mechaniczne paroizolacji wewnętrznej generują konwekcyjny strumień
+    wilgoci o intensywności 20–50× przewyższającej dyfuzję przez materiał folii.
+    Dla typowego dachu 200&nbsp;m² z 500 nieszczelnymi łącznikami szacunkowy napływ wilgoci
+    przez nieszczelności wynosi 200–300&nbsp;kg na sezon. Optymalizacja S<sub>d</sub> folii
+    bez zapewnienia ciągłości powietrznej adresuje podrzędny mechanizm przy ignorowaniu
+    dominującego.
+  </div>
+  <div class="ci">
+    Paroizolacja dyfuzyjna i bariera powietrzna to dwie ortogonalne funkcje tej samej folii,
+    podlegające różnym operatorom transportu. Wysoki S<sub>d</sub> nominalny folii nie chroni
+    przed konwekcją przez nieszczelności mechaniczne. Skuteczna ochrona wilgotnościowa
+    wymaga jednocześnie: wysokiego S<sub>d</sub> ≥ 150&nbsp;m <em>oraz</em> pełnej ciągłości
+    powietrznej weryfikowanej blower-door testem (n<sub>50</sub>&nbsp;≤&nbsp;1,5&nbsp;h⁻¹).
+  </div>
+  <div class="ci">
+    Wszystkie kombinacje wariantów (złącza OC × nieszczelna/szczelna paroizolacja)
+    prowadzą do kaskadowej degradacji strukturalnej w horyzoncie 5–25 lat,
+    z naruszeniem kryterium trwałości 50 lat normy PN-EN&nbsp;1990 o 25–45 lat.
+    Paroizolacja opóźnia moment krytyczny o 5–10 lat — nie zmienia nieuchronności procesu.
+    Koszty naprawy Fazy V wynoszą 10–15× więcej niż prawidłowe wykonanie pierwotne,
+    nie wliczając kosztów zdrowotnych ekspozycji na mykotoksyny i diizocyjaniany
+    przez lata ukrytej degradacji.
+  </div>
+</div>
+
+<div class="box box-dark" style="margin-top: 2.5rem;">
+  <div class="box-tag">Wymagania minimalne prawidłowego projektu złączy PIR</div>
+  <p>
+    Pierwsze wymaganie to eliminacja pianki OC ze wszystkich złączy — zastąpienie materiałem
+    o µ &gt; 100 (pianka zamkniętokomórkowa CC SPF, listwy EPDM prefabrykowane)
+    lub zapewnienie ciągłości termicznej PIR bez szczeliny wypełnionej OC.
+    Drugie to vapor barrier S<sub>d</sub>&nbsp;≥&nbsp;150&nbsp;m z pełną ciągłością powietrzną
+    — złącza na klej butylowy lub MS-polimer, uszczelnianie łączników mechanicznych
+    manszhetami, weryfikacja blower-door po montażu.
+    Trzecie to weryfikacja HAM (WUFI/DELPHIN) złączy jako osobnych węzłów obliczeniowych,
+    nie wyłącznie płaskiego przekroju połaci.
+    <strong>Brak spełnienia wszystkich trzech warunków czyni projekt niezgodnym
+    z PN-EN&nbsp;15026 i WT&nbsp;2021 w zakresie trwałości 50 lat.</strong>
+  </p>
+</div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     VI. REFERENCES
+══════════════════════════════════════════════════ -->
+<section id="refs">
+<div class="sec-head">
+  <span class="sec-num">VI.</span>
+  <h2>References — Literatura</h2>
+</div>
+<div class="refs">
+  <p><strong>Normy i regulacje</strong></p>
+  <p><code>[1]</code> PN-EN 13788:2013. <em>Cieplno-wilgotnościowe właściwości komponentów budowlanych. Temperatura powierzchni wewnętrznej niezbędna do unikania krytycznej wilgotności i kondensacji. Metoda obliczeniowa.</em></p>
+  <p><code>[2]</code> PN-EN 15026:2007. <em>Cieplno-wilgotnościowe właściwości elementów i komponentów budowlanych. Ocena przenoszenia wilgoci przez symulację numeryczną.</em></p>
+  <p><code>[3]</code> PN-EN 1990:2004. <em>Eurokod 0. Podstawy projektowania konstrukcji. Kryterium trwałości 50 lat.</em></p>
+  <p><code>[4]</code> PN-EN 13829:2002. <em>Właściwości cieplne budynków. Określanie przepuszczalności powietrznej budynków. Metoda nadciśnieniowa z użyciem wentylatora.</em></p>
+  <p><code>[5]</code> Rozporządzenie Ministra Infrastruktury. <em>WT 2021 — warunki techniczne, jakim powinny odpowiadać budynki.</em> Dz.U. 2019 poz. 1065.</p>
+  <p style="margin-top:1.2rem;"><strong>Modele i metody</strong></p>
+  <p><code>[6]</code> Künzel H.M. (1994). <em>Simultaneous Heat and Moisture Transport in Building Components.</em> Fraunhofer IRB Verlag, Stuttgart.</p>
+  <p><code>[7]</code> Millington R.J., Quirk J.P. (1961). Permeability of porous solids. <em>Transactions of the Faraday Society</em>, 57, 1200–1207.</p>
+  <p><code>[8]</code> Hens H. (2007). <em>Building Physics — Heat, Air and Moisture.</em> Ernst &amp; Sohn, Berlin.</p>
+  <p><code>[9]</code> Sedlbauer K. (2001). <em>Prediction of Mould Fungus Formation on the Surface of and inside Building Components.</em> Fraunhofer IBP, Stuttgart.</p>
+  <p><code>[10]</code> Chandrasekhar S. (1961). <em>Hydrodynamic and Hydromagnetic Stability.</em> Oxford University Press. [Kryterium Ra<sub>cr</sub> = 1708]</p>
+  <p><code>[11]</code> Zirkelbach D., Schafaczek B., Künzel H.M. (2010). Hygrothermal simulation of flat roofs with interior insulation. <em>Proceedings of the 3rd International Building Physics Conference</em>, Montreal.</p>
+  <p style="margin-top:1.2rem;"><strong>Narzędzia numeryczne</strong></p>
+  <p><code>[12]</code> WUFI Pro 6.x — Wärme und Feuchte Instationär. Fraunhofer Institut für Bauphysik, Holzkirchen.</p>
+  <p><code>[13]</code> DELPHIN 6.x — Dynamic and Linked Propagation Heat, Moisture and Pollutant. Technische Universität Dresden.</p>
+</div>
+</section>
+
+<hr>
+<p style="font-size:0.85rem; color:#7a6a50; font-style:italic; text-align:center; max-width:none; line-height:1.7; padding-bottom: 0.5rem;">
+  Opisany problem jest błędem systemowym wynikającym z luki wiedzy inżynierskiej
+  na styku projektowania, dystrybucji i wykonawstwa. Norma PN-EN&nbsp;1990 wymaga 50 lat trwałości.
+  Opisane błędy skracają żywotność układu dachowego do 5–25 lat.
+</p>
+
+</div><!-- .wrap -->
+
+<footer>
+  <span>Paweł Majsterek</span> · Piaseczno, 17 lutego 2026 · IMRAD v2.0<br>
+  Systemowa Niestabilność Wilgotnościowa Złączy PIR + OC SPF<br>
+  Transport HAM · Künzel · Darcy · Soret · Bifurkacja kaskadowa · Nieszczelność powietrzna<br>
+  PN-EN 1990 · PN-EN 15026 · PN-EN ISO 13788 · PN-EN 13829 · WT 2021
+</footer>
+
+</body>
+</html>
